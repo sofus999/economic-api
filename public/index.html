@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-conomic Account Balance Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="/js/debug.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        <i class="bi bi-bar-chart-line-fill me-2"></i>
+        E-conomic Balance Dashboard
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="/accounts">Account Balances</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid mt-4">
+    <div id="app">
+      <!-- Dynamic content will be loaded here by app.js -->
+      <div class="text-center py-5">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Templates -->
+  <template id="accounts-list-template">
+    <div class="row mb-4">
+      <div class="col">
+        <div class="card shadow-sm">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Account Balances</h5>
+            <div class="d-flex">
+              <select id="year-filter" class="form-select form-select-sm me-2">
+                <!-- Will be populated with years -->
+              </select>
+              <select id="month-filter" class="form-select form-select-sm me-2">
+                <option value="all">All Months</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </select>
+              <input type="text" id="account-search" class="form-control form-control-sm" placeholder="Search accounts...">
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover account-table mb-0">
+                <thead>
+                  <tr>
+                    <th scope="col">Account #</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Balance</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="accounts-table-body">
+                  <!-- Will be populated with accounts -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="account-details-template">
+    <div>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h4 class="mb-0 account-title"></h4>
+          <p class="text-muted account-type mb-0"></p>
+        </div>
+        <div>
+          <button id="back-button" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-left"></i> Back to Accounts
+          </button>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <!-- Balance Summary Card -->
+        <div class="col-12 col-md-4 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h5 class="mb-0">Balance Summary</h5>
+            </div>
+            <div class="card-body">
+              <h2 class="account-balance text-center mb-3"></h2>
+              <div class="d-flex justify-content-between mb-2">
+                <span>Account Number:</span>
+                <span class="account-number fw-bold"></span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span>Account Type:</span>
+                <span class="account-type-detail fw-bold"></span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span>Last Updated:</span>
+                <span class="account-last-updated fw-bold"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monthly Activity Chart -->
+        <div class="col-12 col-md-8 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Monthly Activity</h5>
+              <select id="chart-year-filter" class="form-select form-select-sm" style="width: auto">
+                <!-- Will be populated with years -->
+              </select>
+            </div>
+            <div class="card-body">
+              <canvas id="monthly-chart" height="250"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs for different account views -->
+      <ul class="nav nav-tabs mb-4" id="accountTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="entries-tab" data-bs-toggle="tab" data-bs-target="#entries-content" type="button" role="tab">Account Entries</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="invoices-tab" data-bs-toggle="tab" data-bs-target="#invoices-content" type="button" role="tab">Related Invoices</button>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- Account Entries Tab -->
+        <div class="tab-pane fade show active" id="entries-content" role="tabpanel">
+          <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Account Entries</h5>
+              <div class="d-flex">
+                <input type="date" id="from-date" class="form-control form-control-sm me-2" placeholder="From">
+                <input type="date" id="to-date" class="form-control form-control-sm me-2" placeholder="To">
+                <button id="filter-entries" class="btn btn-sm btn-primary">Apply</button>
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover entries-table mb-0">
+                  <thead>
+                    <tr>
+                      <th scope="col">Entry #</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Voucher</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Text</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody id="entries-table-body">
+                    <!-- Will be populated with entries -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <span id="entries-count">Showing 0 entries</span>
+              <div class="pagination-controls">
+                <button id="prev-entries" class="btn btn-sm btn-outline-secondary me-2" disabled>Previous</button>
+                <button id="next-entries" class="btn btn-sm btn-outline-secondary" disabled>Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Related Invoices Tab -->
+        <div class="tab-pane fade" id="invoices-content" role="tabpanel">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h5 class="mb-0">Related Invoices</h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover invoices-table mb-0">
+                  <thead>
+                    <tr>
+                      <th scope="col">Invoice #</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Customer</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="invoices-table-body">
+                    <!-- Will be populated with invoices -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <span id="invoices-count">Showing 0 invoices</span>
+              <div class="pagination-controls">
+                <button id="prev-invoices" class="btn btn-sm btn-outline-secondary me-2" disabled>Previous</button>
+                <button id="next-invoices" class="btn btn-sm btn-outline-secondary" disabled>Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html> 

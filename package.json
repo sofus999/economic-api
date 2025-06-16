@@ -1,0 +1,36 @@
+{
+  "name": "e-conomics",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "node src/db/run-migrations.js",
+    "start": "node src/server.js",
+    "dev": "NODE_ENV=development LOG_LEVEL=debug node src/server.js",
+    "cleanup-logs": "node src/modules/core/log-cleanup.js",
+    "cleanup-db-logs": "node src/modules/core/db-log-cleanup.js",
+    "optimize-for-powerbi": "node scripts/optimize-for-powerbi.js",
+    "start:prod": "pm2 start ecosystem.config.js --env production",
+    "stop:prod": "pm2 stop ecosystem.config.js",
+    "restart:prod": "pm2 restart ecosystem.config.js --env production",
+    "status": "pm2 status"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-winston": "^4.2.0",
+    "mysql2": "^3.12.0",
+    "uuid": "^9.0.1",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^4.7.1",
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "pm2": "^5.3.0"
+  }
+}

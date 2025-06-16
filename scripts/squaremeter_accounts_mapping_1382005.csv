@@ -1,0 +1,314 @@
+﻿account_number;agreement_number;account_type;name;balance;debit_credit;block_direct_entries;vat_code;self_url;created_at;updated_at;Mapping;Category
+1000;1382005;heading;RESULTATOPGØRELSE;0;debit;0;\N;https://restapi.e-conomic.com/accounts/1000;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+1001;1382005;heading;Omsætning;0;debit;0;\N;https://restapi.e-conomic.com/accounts/1001;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+1010;1382005;profitAndLoss;Salg af varer/ydelser m/moms;0;credit;0;U25;https://restapi.e-conomic.com/accounts/1010;10/04/2025 10.33;01/05/2025 15.59;Other income;Income Statement
+1011;1382005;profitAndLoss;MarkUp;0;debit;0;U25;https://restapi.e-conomic.com/accounts/1011;10/04/2025 10.33;01/05/2025 15.59;Other income;Income Statement
+1012;1382005;profitAndLoss;Caretaker (revenue);-41666,75;debit;0;U25;https://restapi.e-conomic.com/accounts/1012;10/04/2025 10.33;01/05/2025 15.59;Other income;Income Statement
+1013;1382005;profitAndLoss;Construction management (revenue);-330000;debit;0;U25;https://restapi.e-conomic.com/accounts/1013;10/04/2025 10.33;01/05/2025 15.59;Construction management;Income Statement
+1019;1382005;profitAndLoss;Salg AM Fee til EU;0;debit;0;\N;https://restapi.e-conomic.com/accounts/1019;10/04/2025 10.33;01/05/2025 15.59;AM fee (revenue);Income Statement
+1020;1382005;profitAndLoss;Salg AM Fee;-981250;credit;0;U25;https://restapi.e-conomic.com/accounts/1020;10/04/2025 10.33;01/05/2025 15.59;AM fee (revenue);Income Statement
+1021;1382005;profitAndLoss;Salg PM fee to PropCo;-1411854,96;credit;0;U25;https://restapi.e-conomic.com/accounts/1021;10/04/2025 10.33;01/05/2025 15.59;PM fee (revenue);Income Statement
+1022;1382005;profitAndLoss;Development fee (Revenue);-200000;debit;0;U25;https://restapi.e-conomic.com/accounts/1022;10/04/2025 10.33;01/05/2025 15.59;Development fee;Income Statement
+1023;1382005;profitAndLoss;Consultancy Work;0;debit;0;U25;https://restapi.e-conomic.com/accounts/1023;10/04/2025 10.33;01/05/2025 15.59;Other income;Income Statement
+1024;1382005;profitAndLoss;Reimbursed Cost;0;debit;0;U25;https://restapi.e-conomic.com/accounts/1024;10/04/2025 10.33;01/05/2025 15.59;People  Re-imbursement;Income Statement
+1025;1382005;profitAndLoss;Other Income;0;credit;0;U25;https://restapi.e-conomic.com/accounts/1025;10/04/2025 10.33;01/05/2025 15.59;Other income;Income Statement
+1026;1382005;profitAndLoss;Salg af ydelser til EU;0;credit;0;U25;https://restapi.e-conomic.com/accounts/1026;10/04/2025 10.33;01/05/2025 15.59;Other income;Income Statement
+1027;1382005;profitAndLoss;People cost and car rental;-1132731;debit;0;U25;https://restapi.e-conomic.com/accounts/1027;10/04/2025 10.33;01/05/2025 15.59;People  Re-imbursement;Income Statement
+1028;1382005;profitAndLoss;Salaries HAUS;-1432400;debit;0;U25;https://restapi.e-conomic.com/accounts/1028;10/04/2025 10.33;01/05/2025 15.59;People  Re-imbursement;Income Statement
+1030;1382005;profitAndLoss;Salg til kunder u/moms / Viderefakturering;0;credit;0;\N;https://restapi.e-conomic.com/accounts/1030;10/04/2025 10.33;01/05/2025 15.59;Other Income;Income Statement
+1040;1382005;profitAndLoss;Revenue - shared cost;-112064,35;debit;0;U25;https://restapi.e-conomic.com/accounts/1040;10/04/2025 10.33;01/05/2025 15.59;Software Re-imbursement;Income Statement
+1045;1382005;profitAndLoss;Viderefakt. Halil / Dan extra;-175321,81;debit;0;U25;https://restapi.e-conomic.com/accounts/1045;10/04/2025 10.33;01/05/2025 15.59;People  Re-imbursement;Income Statement
+1099;1382005;totalFrom;Omsætning i alt;-5817288,87;debit;0;\N;https://restapi.e-conomic.com/accounts/1099;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+1300;1382005;heading;Direkte omkostninger;0;debit;0;\N;https://restapi.e-conomic.com/accounts/1300;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+1305;1382005;profitAndLoss;Omkostninger Brøndby (Proper, e-conomic mm);0;debit;0;I25;https://restapi.e-conomic.com/accounts/1305;10/04/2025 10.33;01/05/2025 15.59;IT, Software;Income Statement
+1306;1382005;profitAndLoss;Omkostninger Mylo (Proper, e-conomic mm);10763,74;debit;0;I25;https://restapi.e-conomic.com/accounts/1306;10/04/2025 10.33;01/05/2025 15.59;IT, Software;Income Statement
+1308;1382005;profitAndLoss;Omkostninger Vejle - skal viderefaktureres;2800;debit;0;I25;https://restapi.e-conomic.com/accounts/1308;10/04/2025 10.33;01/05/2025 15.59;IT, Software;Income Statement
+1309;1382005;profitAndLoss;JE El teknik (Halil) skal viderefaktureres;75477,21;debit;0;I25;https://restapi.e-conomic.com/accounts/1309;10/04/2025 10.33;01/05/2025 15.59;Caretaker Salaries (to re-imburse);Income Statement
+1310;1382005;profitAndLoss;Direkte omkostninger m/moms;0;debit;0;I25;https://restapi.e-conomic.com/accounts/1310;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+1320;1382005;profitAndLoss;Direkte omkostninger varer u/moms indenfor EU;0;debit;0;IV25;https://restapi.e-conomic.com/accounts/1320;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+1321;1382005;profitAndLoss;Direkte omkostninger ydelser u/moms indenfor EU;0;debit;0;IY25;https://restapi.e-conomic.com/accounts/1321;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+1324;1382005;profitAndLoss;Direkte omkostninger varer u/moms 3. lande;0;debit;0;IV25;https://restapi.e-conomic.com/accounts/1324;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+1325;1382005;profitAndLoss;Direkte omkostninger ydelser u/moms 3. lande;0;debit;0;IY25;https://restapi.e-conomic.com/accounts/1325;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+1326;1382005;profitAndLoss;Lønninger, afsluttede projekter (projekt);0;debit;0;\N;https://restapi.e-conomic.com/accounts/1326;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+1327;1382005;profitAndLoss;Omkostninger, afsluttede projekter (projekt);0;debit;0;\N;https://restapi.e-conomic.com/accounts/1327;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+1330;1382005;profitAndLoss;Vareforbrug (lagermodul);0;debit;0;\N;https://restapi.e-conomic.com/accounts/1330;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+1399;1382005;totalFrom;Direkte omkostninger i alt;89040,95;debit;0;\N;https://restapi.e-conomic.com/accounts/1399;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+2000;1382005;totalFrom;Dækningsbidrag;-5728247,92;debit;0;\N;https://restapi.e-conomic.com/accounts/2000;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+2200;1382005;heading;Lønninger;0;debit;0;\N;https://restapi.e-conomic.com/accounts/2200;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+2206;1382005;profitAndLoss;Pension, medarbejder (Mylo);0;debit;0;\N;https://restapi.e-conomic.com/accounts/2206;10/04/2025 10.33;01/05/2025 15.59;Pension Costs;Income Statement
+2207;1382005;profitAndLoss;Pension, arbejdsgiver (Mylo);0;debit;0;\N;https://restapi.e-conomic.com/accounts/2207;10/04/2025 10.33;01/05/2025 15.59;Pension Costs;Income Statement
+2208;1382005;profitAndLoss;Lønninger (Mylo);0;debit;0;\N;https://restapi.e-conomic.com/accounts/2208;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2209;1382005;profitAndLoss;Lønninger Timeløn;300388,42;debit;0;\N;https://restapi.e-conomic.com/accounts/2209;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2210;1382005;profitAndLoss;Lønninger;3041612,87;debit;0;\N;https://restapi.e-conomic.com/accounts/2210;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2211;1382005;profitAndLoss;Feriepenge & SH;0;debit;0;\N;https://restapi.e-conomic.com/accounts/2211;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2212;1382005;profitAndLoss;Feriepenge OGP;0;debit;0;\N;https://restapi.e-conomic.com/accounts/2212;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2213;1382005;profitAndLoss;B-honorar;0;debit;0;\N;https://restapi.e-conomic.com/accounts/2213;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2214;1382005;profitAndLoss;Personalegoder og multimedier - BESKATNING;-5225;debit;0;\N;https://restapi.e-conomic.com/accounts/2214;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2215;1382005;profitAndLoss;Pensioner, arbejdsgiver;167674,97;debit;0;\N;https://restapi.e-conomic.com/accounts/2215;10/04/2025 10.33;01/05/2025 15.59;Pension Costs;Income Statement
+2216;1382005;profitAndLoss;Viderefakturering personale;-120967,8;debit;0;U25;https://restapi.e-conomic.com/accounts/2216;10/04/2025 10.33;01/05/2025 15.59;People  Re-imbursement;Income Statement
+2217;1382005;profitAndLoss;Pensioner, medarbejder;132386,73;debit;0;\N;https://restapi.e-conomic.com/accounts/2217;10/04/2025 10.33;01/05/2025 15.59;Pension Costs;Income Statement
+2218;1382005;profitAndLoss;Lønrefusion;0;debit;0;\N;https://restapi.e-conomic.com/accounts/2218;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2219;1382005;profitAndLoss;Afsat bonus;0;debit;0;\N;https://restapi.e-conomic.com/accounts/2219;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2222;1382005;profitAndLoss;AER (Samlet betaling);57163,39;debit;0;\N;https://restapi.e-conomic.com/accounts/2222;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2223;1382005;profitAndLoss;ATP;19899;debit;0;\N;https://restapi.e-conomic.com/accounts/2223;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2224;1382005;profitAndLoss;DA-barsel;0;debit;0;\N;https://restapi.e-conomic.com/accounts/2224;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2225;1382005;profitAndLoss;Kost medarbejder (frokost);25420;debit;0;\N;https://restapi.e-conomic.com/accounts/2225;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2230;1382005;profitAndLoss;KM-penge;0;debit;0;\N;https://restapi.e-conomic.com/accounts/2230;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2240;1382005;profitAndLoss;Personale arrangementer;567,68;debit;0;\N;https://restapi.e-conomic.com/accounts/2240;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2241;1382005;profitAndLoss;Personalefortæring;37749,29;debit;0;\N;https://restapi.e-conomic.com/accounts/2241;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2242;1382005;profitAndLoss;løngebyr;2500;debit;0;I25;https://restapi.e-conomic.com/accounts/2242;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2243;1382005;profitAndLoss;Personaleudgifter;10804,02;debit;0;\N;https://restapi.e-conomic.com/accounts/2243;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2244;1382005;profitAndLoss;Arbejdstøj;0;debit;0;I25;https://restapi.e-conomic.com/accounts/2244;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2280;1382005;profitAndLoss;Feriepengeforpligtelse, reg.;99510,95;debit;0;\N;https://restapi.e-conomic.com/accounts/2280;10/04/2025 10.33;01/05/2025 15.59;Salaries etc.;Income Statement
+2299;1382005;totalFrom;Lønninger i alt;3769484,52;debit;0;\N;https://restapi.e-conomic.com/accounts/2299;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+2500;1382005;heading;Kapacitetsomkostninger;0;debit;0;\N;https://restapi.e-conomic.com/accounts/2500;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+2700;1382005;heading;Salgs- og rejseomkostninger;0;debit;0;\N;https://restapi.e-conomic.com/accounts/2700;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+2750;1382005;profitAndLoss;Restaurationsbesøg;3924,53;debit;0;REP;https://restapi.e-conomic.com/accounts/2750;10/04/2025 10.33;01/05/2025 15.59;Travel and marketing;Income Statement
+2754;1382005;profitAndLoss;Gaver og blomster;4438,33;debit;0;\N;https://restapi.e-conomic.com/accounts/2754;10/04/2025 10.33;01/05/2025 15.59;Travel and marketing;Income Statement
+2755;1382005;profitAndLoss;Møde forplejning egne lokaler;854,7;debit;0;\N;https://restapi.e-conomic.com/accounts/2755;10/04/2025 10.33;01/05/2025 15.59;Travel and marketing;Income Statement
+2760;1382005;profitAndLoss;Anden repræsentation;0;debit;0;REP;https://restapi.e-conomic.com/accounts/2760;10/04/2025 10.33;01/05/2025 15.59;Travel and marketing;Income Statement
+2770;1382005;profitAndLoss;Rejseudgifter;84091,86;debit;0;\N;https://restapi.e-conomic.com/accounts/2770;10/04/2025 10.33;01/05/2025 15.59;Travel and marketing;Income Statement
+2800;1382005;profitAndLoss;Annoncer og reklame;2400;debit;0;I25;https://restapi.e-conomic.com/accounts/2800;10/04/2025 10.33;01/05/2025 15.59;Travel and marketing;Income Statement
+2805;1382005;profitAndLoss;Viderefakturering Rejse og Marketing;0;debit;0;U25;https://restapi.e-conomic.com/accounts/2805;10/04/2025 10.33;01/05/2025 15.59;Travel and marketing;Income Statement
+2811;1382005;profitAndLoss;Fragt m/moms;0;debit;0;I25;https://restapi.e-conomic.com/accounts/2811;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+2899;1382005;totalFrom;Salgs- og rejseomkostninger i alt;95709,42;debit;0;\N;https://restapi.e-conomic.com/accounts/2899;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+3100;1382005;heading;Autodrift - personbiler;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3100;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+3104;1382005;profitAndLoss;Rep. af bil;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3104;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3105;1382005;profitAndLoss;Leasing bil;23055,93;debit;0;I25;https://restapi.e-conomic.com/accounts/3105;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3107;1382005;profitAndLoss;El til bil;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3107;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3110;1382005;profitAndLoss;Brændstof;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3110;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3120;1382005;profitAndLoss;Taxa;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3120;10/04/2025 10.33;01/05/2025 15.59;Travel and marketing;Income Statement
+3130;1382005;profitAndLoss;Parkering;17607,16;debit;0;\N;https://restapi.e-conomic.com/accounts/3130;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3140;1382005;profitAndLoss;Reparation/vedligeholdelse;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3140;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3150;1382005;profitAndLoss;Afgifter bil;385,85;debit;0;\N;https://restapi.e-conomic.com/accounts/3150;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3199;1382005;totalFrom;Autodrift - personbiler i alt;41048,94;debit;0;\N;https://restapi.e-conomic.com/accounts/3199;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+3400;1382005;heading;Lokaleomkostninger;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3400;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+3410;1382005;profitAndLoss;Husleje m/moms;253365,75;debit;0;I25;https://restapi.e-conomic.com/accounts/3410;10/04/2025 10.33;01/05/2025 15.59;Rental expenses;Income Statement
+3411;1382005;profitAndLoss;Husleje u/moms;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3411;10/04/2025 10.33;01/05/2025 15.59;Rental expenses;Income Statement
+3415;1382005;profitAndLoss;Alarm;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3415;10/04/2025 10.33;01/05/2025 15.59;Rental expenses;Income Statement
+3420;1382005;profitAndLoss;El, vand og gas;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3420;10/04/2025 10.33;01/05/2025 15.59;Rental expenses;Income Statement
+3430;1382005;profitAndLoss;Vedligeholdelse og rengøring;1758,4;debit;0;I25;https://restapi.e-conomic.com/accounts/3430;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3450;1382005;profitAndLoss;Forsikringer (lokale);0;debit;0;\N;https://restapi.e-conomic.com/accounts/3450;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3499;1382005;totalFrom;Lokaleomkostninger i alt;255124,15;debit;0;\N;https://restapi.e-conomic.com/accounts/3499;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+3500;1382005;heading;Administrationsomkostninger;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3500;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+3600;1382005;profitAndLoss;Kontorartikler og tryksager;8945,14;debit;0;I25;https://restapi.e-conomic.com/accounts/3600;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3601;1382005;profitAndLoss;Avishold;7116;debit;0;\N;https://restapi.e-conomic.com/accounts/3601;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3602;1382005;profitAndLoss;It-udgifter / Chisa;100406;debit;0;I25;https://restapi.e-conomic.com/accounts/3602;10/04/2025 10.33;01/05/2025 15.59;IT, Software;Income Statement
+3603;1382005;profitAndLoss;It-udgifter / software Shared cost;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3603;10/04/2025 10.33;01/05/2025 15.59;IT, Software;Income Statement
+3604;1382005;profitAndLoss;It-udgifter / software;52644,51;debit;0;I25;https://restapi.e-conomic.com/accounts/3604;10/04/2025 10.33;01/05/2025 15.59;IT, Software;Income Statement
+3605;1382005;profitAndLoss;It-udgifter 3.land;9089,36;debit;0;IY25;https://restapi.e-conomic.com/accounts/3605;10/04/2025 10.33;01/05/2025 15.59;IT, Software;Income Statement
+3606;1382005;profitAndLoss;It-udgifter EU;8527,48;debit;0;IY25;https://restapi.e-conomic.com/accounts/3606;10/04/2025 10.33;01/05/2025 15.59;IT, Software;Income Statement
+3607;1382005;profitAndLoss;It-udgifter / Hardware Computer;20225;debit;0;I25;https://restapi.e-conomic.com/accounts/3607;10/04/2025 10.33;01/05/2025 15.59;IT, Software;Income Statement
+3608;1382005;profitAndLoss;It- udgifter / Hardware Phones;9412;debit;0;I25;https://restapi.e-conomic.com/accounts/3608;10/04/2025 10.33;01/05/2025 15.59;IT, Software;Income Statement
+3609;1382005;profitAndLoss;It-udgifter / Hardware Other;2155,4;debit;0;I25;https://restapi.e-conomic.com/accounts/3609;10/04/2025 10.33;01/05/2025 15.59;IT, Software;Income Statement
+3610;1382005;profitAndLoss;It-Konsulenter - Bjarke (Web-construct);172650;debit;0;I25;https://restapi.e-conomic.com/accounts/3610;10/04/2025 10.33;01/05/2025 15.59;Internal Consultants;Income Statement
+3611;1382005;profitAndLoss;Software - hococo;56619,2;debit;0;I25;https://restapi.e-conomic.com/accounts/3611;10/04/2025 10.33;01/05/2025 15.59;IT, Software;Income Statement
+3617;1382005;profitAndLoss;Mindre anskaffelser;17037,72;debit;0;I25;https://restapi.e-conomic.com/accounts/3617;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3618;1382005;profitAndLoss;Mindre anskaffelser, omvendt betalingspligt;0;debit;0;OBPK;https://restapi.e-conomic.com/accounts/3618;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3620;1382005;profitAndLoss;Telefon abonnementer;79716,68;debit;0;I25;https://restapi.e-conomic.com/accounts/3620;10/04/2025 10.33;01/05/2025 15.59;Telephone and internet;Income Statement
+3621;1382005;profitAndLoss;Internetforbindelse;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3621;10/04/2025 10.33;01/05/2025 15.59;Telephone and internet;Income Statement
+3628;1382005;profitAndLoss;Porto og gebyrer;284,25;debit;0;\N;https://restapi.e-conomic.com/accounts/3628;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3638;1382005;profitAndLoss;Revisor;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3638;10/04/2025 10.33;01/05/2025 15.59;Auditors;Income Statement
+3640;1382005;profitAndLoss;Bogføring V&Co;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3640;10/04/2025 10.33;01/05/2025 15.59;Bookkeeping;Income Statement
+3645;1382005;profitAndLoss;Advokat;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3645;10/04/2025 10.33;01/05/2025 15.59;Lawyers and advisory;Income Statement
+3650;1382005;profitAndLoss;Forsikringer;145946,91;debit;0;\N;https://restapi.e-conomic.com/accounts/3650;10/04/2025 10.33;01/05/2025 15.59;Insurance;Income Statement
+3660;1382005;profitAndLoss;Faglitteratur m/moms;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3660;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3661;1382005;profitAndLoss;Faglitteratur u/moms;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3661;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3662;1382005;profitAndLoss;Kontingenter m/moms;21269;debit;0;I25;https://restapi.e-conomic.com/accounts/3662;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3663;1382005;profitAndLoss;Kontingenter u/moms;8150;debit;0;\N;https://restapi.e-conomic.com/accounts/3663;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3664;1382005;profitAndLoss;Web-hotel og domænenavne;4424,8;debit;0;I25;https://restapi.e-conomic.com/accounts/3664;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3665;1382005;profitAndLoss;Kursusudgifter;13886,32;debit;0;I25;https://restapi.e-conomic.com/accounts/3665;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3666;1382005;profitAndLoss;Konsulent - Anden rådgivning;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3666;10/04/2025 10.33;01/05/2025 15.59;Lawyers and advisory;Income Statement
+3667;1382005;profitAndLoss;Konsulent - Matant;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3667;10/04/2025 10.33;01/05/2025 15.59;Internal Consultants;Income Statement
+3668;1382005;profitAndLoss;Konsulent - Lea consult;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3668;10/04/2025 10.33;01/05/2025 15.59;Lawyers and advisory;Income Statement
+3669;1382005;profitAndLoss;Konsulent - ASIGNE;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3669;10/04/2025 10.33;01/05/2025 15.59;Lawyers and advisory;Income Statement
+3670;1382005;profitAndLoss;Leje/leasing af driftsmidler;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3670;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3671;1382005;profitAndLoss;Konsulent - Michael Soetman;20625;debit;0;I25;https://restapi.e-conomic.com/accounts/3671;10/04/2025 10.33;01/05/2025 15.59;Internal Consultants;Income Statement
+3672;1382005;profitAndLoss;Konsulent Axholm Rådgivning;285000;debit;0;I25;https://restapi.e-conomic.com/accounts/3672;10/04/2025 10.33;01/05/2025 15.59;Internal Consultants;Income Statement
+3673;1382005;profitAndLoss;Konsulent CP Regnskab;51700;debit;0;I25;https://restapi.e-conomic.com/accounts/3673;10/04/2025 10.33;01/05/2025 15.59;Internal Consultants;Income Statement
+3674;1382005;profitAndLoss;Konsulent KANT;0;debit;0;I25;https://restapi.e-conomic.com/accounts/3674;10/04/2025 10.33;01/05/2025 15.59;Internal Consultants;Income Statement
+3720;1382005;profitAndLoss;Tab på debitorer;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3720;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3770;1382005;profitAndLoss;Kassedifferencer mv.;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3770;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3780;1382005;profitAndLoss;Ej fradragsberettigede omkostninger;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3780;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3785;1382005;profitAndLoss;Viderefakturering Andre udgifter;-2776;debit;0;U25;https://restapi.e-conomic.com/accounts/3785;10/04/2025 10.33;01/05/2025 15.59;Other expenses;Income Statement
+3799;1382005;totalFrom;Administrationsomkostninger i alt;1093054,77;debit;0;\N;https://restapi.e-conomic.com/accounts/3799;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+3800;1382005;totalFrom;Resultat før afskrivninger;-473826,12;debit;0;\N;https://restapi.e-conomic.com/accounts/3800;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+3900;1382005;heading;Afskrivninger;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3900;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+3910;1382005;profitAndLoss;Afskrivning, indretning lejede lokaler;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3910;10/04/2025 10.33;01/05/2025 15.59;Depreciation;Income Statement
+3940;1382005;profitAndLoss;Afskrivning, driftsmidler og inventar;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3940;10/04/2025 10.33;01/05/2025 15.59;Depreciation;Income Statement
+3950;1382005;profitAndLoss;Afskrivning, edb;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3950;10/04/2025 10.33;01/05/2025 15.59;Depreciation;Income Statement
+3951;1382005;profitAndLoss;Viderefakturering afskrivninger;0;debit;0;U25;https://restapi.e-conomic.com/accounts/3951;10/04/2025 10.33;01/05/2025 15.59;Depreciation;Income Statement
+3999;1382005;totalFrom;Afskrivninger i alt;0;debit;0;\N;https://restapi.e-conomic.com/accounts/3999;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+4000;1382005;totalFrom;Resultat før renter;-473826,12;debit;0;\N;https://restapi.e-conomic.com/accounts/4000;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+4200;1382005;profitAndLoss;Associerede virksomheder;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4200;10/04/2025 10.33;01/05/2025 15.59;Other financial income;Income Statement
+4210;1382005;profitAndLoss;Tillknyttede virksomheder;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4210;10/04/2025 10.33;01/05/2025 15.59;Other financial income;Income Statement
+4300;1382005;heading;Renteindtægter;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4300;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+4310;1382005;profitAndLoss;Renteindtægt, bank;-3343,59;credit;0;\N;https://restapi.e-conomic.com/accounts/4310;10/04/2025 10.33;01/05/2025 15.59;Other financial income;Income Statement
+4360;1382005;profitAndLoss;Renteindtægt, debitorer;0;credit;0;\N;https://restapi.e-conomic.com/accounts/4360;10/04/2025 10.33;01/05/2025 15.59;Other financial income;Income Statement
+4365;1382005;profitAndLoss;Rykkergebyr, debitorer;0;credit;0;\N;https://restapi.e-conomic.com/accounts/4365;10/04/2025 10.33;01/05/2025 15.59;Other financial income;Income Statement
+4380;1382005;profitAndLoss;Valutakursdifference, debitorer gevinst;0;credit;0;\N;https://restapi.e-conomic.com/accounts/4380;10/04/2025 10.33;01/05/2025 15.59;Exchange differences (net);Income Statement
+4381;1382005;profitAndLoss;Valutakursdifference, kreditorer gevinst;-0,04;credit;0;\N;https://restapi.e-conomic.com/accounts/4381;10/04/2025 10.33;01/05/2025 15.59;Exchange differences (net);Income Statement
+4399;1382005;totalFrom;Renteindtægter i alt;-3343,63;debit;0;\N;https://restapi.e-conomic.com/accounts/4399;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+4400;1382005;heading;Renteudgifter;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4400;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+4410;1382005;profitAndLoss;Renteudgift, bank;2,22;debit;0;\N;https://restapi.e-conomic.com/accounts/4410;10/04/2025 10.33;01/05/2025 15.59;Interest expenses;Income Statement
+4450;1382005;profitAndLoss;Låneomkostninger;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4450;10/04/2025 10.33;01/05/2025 15.59;Bank expenses;Income Statement
+4460;1382005;profitAndLoss;Renteudgift, kreditorer;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4460;10/04/2025 10.33;01/05/2025 15.59;Interest expenses;Income Statement
+4461;1382005;profitAndLoss;Kreditorer, gebyr;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4461;10/04/2025 10.33;01/05/2025 15.59;Bank expenses;Income Statement
+4465;1382005;profitAndLoss;Renteudgift, Told & Skat;260,97;debit;0;\N;https://restapi.e-conomic.com/accounts/4465;10/04/2025 10.33;01/05/2025 15.59;Interest expenses;Income Statement
+4470;1382005;profitAndLoss;Finansieringstillæg, selskabsskat;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4470;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Income Statement
+4480;1382005;profitAndLoss;Valutakursdifference, debitorer tab;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4480;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Income Statement
+4481;1382005;profitAndLoss;Valutakursdifference, kreditorer tab;33,3;debit;0;\N;https://restapi.e-conomic.com/accounts/4481;10/04/2025 10.33;01/05/2025 15.59;Exchange differences (net);Income Statement
+4499;1382005;totalFrom;Renteudgifter i alt;296,49;debit;0;\N;https://restapi.e-conomic.com/accounts/4499;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+4500;1382005;totalFrom;Resultat før ekstraordinære poster;-476873,26;debit;0;\N;https://restapi.e-conomic.com/accounts/4500;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+4600;1382005;heading;Ekstraordinære poster;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4600;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+4610;1382005;profitAndLoss;Ekstraordinære indtægter m/moms;0;debit;0;U25;https://restapi.e-conomic.com/accounts/4610;10/04/2025 10.33;01/05/2025 15.59;Other income;Income Statement
+4620;1382005;profitAndLoss;Ekstraordinære indtægter u/moms;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4620;10/04/2025 10.33;01/05/2025 15.59;Other income;Income Statement
+4630;1382005;profitAndLoss;Ekstraordinære udgifter m/moms;0;debit;0;I25;https://restapi.e-conomic.com/accounts/4630;10/04/2025 10.33;01/05/2025 15.59;Other income;Income Statement
+4640;1382005;profitAndLoss;Ekstraordinære udgifter u/moms;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4640;10/04/2025 10.33;01/05/2025 15.59;Other income;Income Statement
+4699;1382005;totalFrom;Ekstraordinære poster i alt;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4699;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+4700;1382005;totalFrom;Resultat før skat;-476873,26;debit;0;\N;https://restapi.e-conomic.com/accounts/4700;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+4800;1382005;heading;Selskabsskat;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4800;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+4810;1382005;profitAndLoss;Selskabsskat, aktuel;157000;debit;0;\N;https://restapi.e-conomic.com/accounts/4810;10/04/2025 10.33;01/05/2025 15.59;Corporate income taxes;Income Statement
+4820;1382005;profitAndLoss;Reg. af udskudt skat;0;debit;0;\N;https://restapi.e-conomic.com/accounts/4820;10/04/2025 10.33;01/05/2025 15.59;Corporate income taxes;Income Statement
+4899;1382005;totalFrom;Selskabsskat i alt;157000;debit;0;\N;https://restapi.e-conomic.com/accounts/4899;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+4990;1382005;totalFrom;RESULTAT EFTER SKAT;-319873,26;debit;0;\N;https://restapi.e-conomic.com/accounts/4990;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5000;1382005;headingStart;AKTIVER;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5000;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5010;1382005;heading;Anlægsaktiver;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5010;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5110;1382005;heading;Indretning af lejede lokaler;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5110;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5111;1382005;status;Indretning, anskaffelse primo;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5111;10/04/2025 10.33;01/05/2025 15.59;Accumulated costs 01.01;Balance sheet
+5112;1382005;status;Indretning, årets tilgang;0;debit;0;I25;https://restapi.e-conomic.com/accounts/5112;10/04/2025 10.33;01/05/2025 15.59;Accumulated costs 01.01;Balance sheet
+5113;1382005;status;Indretning, årets afgang;0;credit;0;\N;https://restapi.e-conomic.com/accounts/5113;10/04/2025 10.33;01/05/2025 15.59;Accumulated costs 01.01;Balance sheet
+5116;1382005;status;Indretning, afskrivning primo;0;credit;0;\N;https://restapi.e-conomic.com/accounts/5116;10/04/2025 10.33;01/05/2025 15.59;Accumulated costs 01.01;Balance sheet
+5117;1382005;status;Indretning, årets afskrivninger;0;credit;0;\N;https://restapi.e-conomic.com/accounts/5117;10/04/2025 10.33;01/05/2025 15.59;Depreciation for the period;Balance sheet
+5119;1382005;totalFrom;Indretning af lejede lokaler i alt;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5119;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5220;1382005;heading;Driftsmidler & inventar;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5220;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5221;1382005;status;Driftsmidler, anskaffelse primo;181552;debit;0;\N;https://restapi.e-conomic.com/accounts/5221;10/04/2025 10.33;01/05/2025 15.59;Accumulated costs 01.01;Balance sheet
+5222;1382005;status;Driftsmidler, årets tilgang;0;debit;0;I25;https://restapi.e-conomic.com/accounts/5222;10/04/2025 10.33;01/05/2025 15.59;Accumulated costs 01.01;Balance sheet
+5223;1382005;status;Driftsmidler, årets afgang;0;credit;0;\N;https://restapi.e-conomic.com/accounts/5223;10/04/2025 10.33;01/05/2025 15.59;Accumulated costs 01.01;Balance sheet
+5226;1382005;status;Driftsmidler, afskrivning primo;-134955;credit;0;\N;https://restapi.e-conomic.com/accounts/5226;10/04/2025 10.33;01/05/2025 15.59;Depreciation 01.01;Balance sheet
+5227;1382005;status;Driftsmidler, årets afskrivninger;0;credit;0;\N;https://restapi.e-conomic.com/accounts/5227;10/04/2025 10.33;01/05/2025 15.59;Depreciation for the period;Balance sheet
+5229;1382005;totalFrom;Driftsmidler & inventar i alt;46597;debit;0;\N;https://restapi.e-conomic.com/accounts/5229;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5230;1382005;heading;Edb-anlæg;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5230;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5231;1382005;status;Edb-anlæg, anskaffelse primo;289389,26;debit;0;\N;https://restapi.e-conomic.com/accounts/5231;10/04/2025 10.33;01/05/2025 15.59;Accumulated costs 01.01;Balance sheet
+5232;1382005;status;Edb-anlæg, årets tilgang;0;debit;0;I25;https://restapi.e-conomic.com/accounts/5232;10/04/2025 10.33;01/05/2025 15.59;Depreciation for the period;Balance sheet
+5233;1382005;status;Edb-anlæg, årets afgang;0;credit;0;\N;https://restapi.e-conomic.com/accounts/5233;10/04/2025 10.33;01/05/2025 15.59;Depreciation for the period;Balance sheet
+5236;1382005;status;Edb-anlæg, afskrivning primo;-216113;credit;0;\N;https://restapi.e-conomic.com/accounts/5236;10/04/2025 10.33;01/05/2025 15.59;Depreciation 01.01;Balance sheet
+5237;1382005;status;Edb-anlæg, årets afskrivninger;0;credit;0;\N;https://restapi.e-conomic.com/accounts/5237;10/04/2025 10.33;01/05/2025 15.59;Depreciation for the period;Balance sheet
+5239;1382005;totalFrom;Edb-anlæg i alt;73276,26;debit;0;\N;https://restapi.e-conomic.com/accounts/5239;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5250;1382005;status;Associerede virksomhed;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5250;10/04/2025 10.33;01/05/2025 15.59;Subsidiaries and ass. companies;Balance sheet
+5260;1382005;status;Kapitalandel - Cubic Meter ApS;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5260;10/04/2025 10.33;01/05/2025 15.59;Subsidiaries and ass. companies;Balance sheet
+5265;1382005;status;Kapitalandel Archive House Management;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5265;10/04/2025 10.33;01/05/2025 15.59;Subsidiaries and ass. companies;Balance sheet
+5310;1382005;heading;Deposita;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5310;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5312;1382005;status;Huslejedepositum m/moms;161232,75;debit;0;I25;https://restapi.e-conomic.com/accounts/5312;10/04/2025 10.33;01/05/2025 15.59;Deposits and prepaid rent;Balance sheet
+5313;1382005;status;Huslejedepositum u/moms;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5313;10/04/2025 10.33;01/05/2025 15.59;Deposits and prepaid rent;Balance sheet
+5322;1382005;status;Leasingdepositum;0;debit;0;I25;https://restapi.e-conomic.com/accounts/5322;10/04/2025 10.33;01/05/2025 15.59;Other receivables;Balance sheet
+5323;1382005;status;Depositum Copenhagen Medical;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5323;10/04/2025 10.33;01/05/2025 15.59;Other receivables;Balance sheet
+5329;1382005;totalFrom;Deposita i alt;161232,75;debit;0;\N;https://restapi.e-conomic.com/accounts/5329;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5499;1382005;totalFrom;Anlægsaktiver i alt;281106,01;debit;0;\N;https://restapi.e-conomic.com/accounts/5499;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5500;1382005;heading;Omsætningsaktiver;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5500;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5520;1382005;status;Varelager;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5520;10/04/2025 10.33;01/05/2025 15.59;Inventories;Balance sheet
+5600;1382005;status;Debitorer;5156525,89;debit;1;\N;https://restapi.e-conomic.com/accounts/5600;10/04/2025 10.33;01/05/2025 15.59;Other receivables;Balance sheet
+5650;1382005;status;Andre tilgodehavender;1060000;debit;0;\N;https://restapi.e-conomic.com/accounts/5650;10/04/2025 10.33;01/05/2025 15.59;Other receivables;Balance sheet
+5654;1382005;status;Igangværende arbejder - aktiviteter (projekt);0;debit;0;\N;https://restapi.e-conomic.com/accounts/5654;10/04/2025 10.33;01/05/2025 15.59;Other receivables;Balance sheet
+5655;1382005;status;Igangværende arbejder - omkostninger (projekt);0;debit;0;\N;https://restapi.e-conomic.com/accounts/5655;10/04/2025 10.33;01/05/2025 15.59;Payables to suppliers;Balance sheet
+5660;1382005;status;Forudbetalte poster;26400;debit;0;\N;https://restapi.e-conomic.com/accounts/5660;10/04/2025 10.33;01/05/2025 15.59;Payables to suppliers;Balance sheet
+5665;1382005;status;Periodeafgrænsningsposter;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5665;10/04/2025 10.33;01/05/2025 15.59;Prepaid expenses;Balance sheet
+5810;1382005;status;Bankkonto moms JB 2015662;458,41;debit;0;\N;https://restapi.e-conomic.com/accounts/5810;10/04/2025 10.33;01/05/2025 15.59;Cash and cash equivalents;Balance sheet
+5820;1382005;status;Bankkonto JB 2012487;728365,93;debit;0;\N;https://restapi.e-conomic.com/accounts/5820;10/04/2025 10.33;01/05/2025 15.59;Cash and cash equivalents;Balance sheet
+5821;1382005;status;PLEO Pocket;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5821;10/04/2025 10.33;01/05/2025 15.59;Cash and cash equivalents;Balance sheet
+5830;1382005;status;Ringkøbing Landbobank;17,05;debit;0;\N;https://restapi.e-conomic.com/accounts/5830;10/04/2025 10.33;01/05/2025 15.59;Cash and cash equivalents;Balance sheet
+5840;1382005;status;Bankkonto reserve JB 2015670;3526,39;debit;0;\N;https://restapi.e-conomic.com/accounts/5840;10/04/2025 10.33;01/05/2025 15.59;Cash and cash equivalents;Balance sheet
+5845;1382005;status;Bank JB 2019284 BS;29444,72;debit;0;\N;https://restapi.e-conomic.com/accounts/5845;10/04/2025 10.33;01/05/2025 15.59;Cash and cash equivalents;Balance sheet
+5850;1382005;status;PLEO;82394,92;debit;0;\N;https://restapi.e-conomic.com/accounts/5850;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+5880;1382005;status;Interimskonto bank;0;debit;0;\N;https://restapi.e-conomic.com/accounts/5880;10/04/2025 10.33;01/05/2025 15.59;Cash and cash equivalents;Balance sheet
+5980;1382005;totalFrom;Omsætningsaktiver i alt;7087133,31;debit;0;\N;https://restapi.e-conomic.com/accounts/5980;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+5990;1382005;totalFrom;AKTIVER I ALT;7368239,32;debit;0;\N;https://restapi.e-conomic.com/accounts/5990;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+6000;1382005;headingStart;PASSIVER;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6000;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+6100;1382005;heading;EGENKAPITAL;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6100;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+6110;1382005;status;Selskabskapital;-50000;credit;0;\N;https://restapi.e-conomic.com/accounts/6110;10/04/2025 10.33;01/05/2025 15.59;Equity 01.01;Balance sheet
+6120;1382005;status;Overkursfond;0;credit;0;\N;https://restapi.e-conomic.com/accounts/6120;10/04/2025 10.33;01/05/2025 15.59;Other equity adjustments;Balance sheet
+6130;1382005;status;Overført resultat tidligere år;-5072902;credit;0;\N;https://restapi.e-conomic.com/accounts/6130;10/04/2025 10.33;01/05/2025 15.59;Equity 01.01;Balance sheet
+6140;1382005;sumInterval;Periodens resultat efter skat;-319873,26;credit;0;\N;https://restapi.e-conomic.com/accounts/6140;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+6199;1382005;sumInterval;EGENKAPITAL I ALT;-5442775,26;debit;0;\N;https://restapi.e-conomic.com/accounts/6199;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+6300;1382005;heading;HENSÆTTELSER;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6300;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+6310;1382005;status;Udskudt skat;10309;debit;0;\N;https://restapi.e-conomic.com/accounts/6310;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6320;1382005;status;Øvrige hensættelser;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6320;10/04/2025 10.33;01/05/2025 15.59;Payables other expenses;Balance sheet
+6399;1382005;totalFrom;HENSÆTTELSER I ALT;10309;debit;0;\N;https://restapi.e-conomic.com/accounts/6399;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+6600;1382005;heading;GÆLD;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6600;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+6610;1382005;status;Skyldig selskabsskat;282416;credit;0;\N;https://restapi.e-conomic.com/accounts/6610;10/04/2025 10.33;01/05/2025 15.59;Corporate tax payables;Balance sheet
+6750;1382005;status;Kassekredit;0;credit;0;\N;https://restapi.e-conomic.com/accounts/6750;10/04/2025 10.33;01/05/2025 15.59;Payables to suppliers;Balance sheet
+6800;1382005;status;Kreditorer;-601188,97;credit;1;\N;https://restapi.e-conomic.com/accounts/6800;10/04/2025 10.33;01/05/2025 15.59;Payables other expenses;Balance sheet
+6801;1382005;status;Kreditorer (ej samlekonto);0;debit;0;\N;https://restapi.e-conomic.com/accounts/6801;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6830;1382005;status;Skyldige omkostninger;0;credit;0;\N;https://restapi.e-conomic.com/accounts/6830;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6831;1382005;status;Skyldig revisor;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6831;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6835;1382005;status;Skyldige medarbejderudlæg;0;credit;0;\N;https://restapi.e-conomic.com/accounts/6835;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6840;1382005;status;Periodisering af indtægter;-2417815,76;debit;0;\N;https://restapi.e-conomic.com/accounts/6840;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6850;1382005;status;Projekteringsledelse indtægter;-12374992,6;debit;0;U25;https://restapi.e-conomic.com/accounts/6850;10/04/2025 10.33;01/05/2025 15.59;Other receivables;Balance sheet
+6851;1382005;status;Projektledelse (debitorer);15468740,75;debit;0;\N;https://restapi.e-conomic.com/accounts/6851;10/04/2025 10.33;01/05/2025 15.59;Other receivables;Balance sheet
+6852;1382005;status;Projektledelse udgifter;10356076,14;debit;0;I25;https://restapi.e-conomic.com/accounts/6852;10/04/2025 10.33;01/05/2025 15.59;Other receivables;Balance sheet
+6853;1382005;status;Projektledelse faktura (leverandører);-12640126,54;debit;0;\N;https://restapi.e-conomic.com/accounts/6853;10/04/2025 10.33;01/05/2025 15.59;Other receivables;Balance sheet
+6854;1382005;status;Udlæg ACCURA - BH lokalplanudvikling;279685,64;debit;0;I25;https://restapi.e-conomic.com/accounts/6854;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6860;1382005;status;Mellemregning med anpartshaver;0;credit;0;\N;https://restapi.e-conomic.com/accounts/6860;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6861;1382005;status;Mellemregning Lars Jensen;-1179;debit;0;\N;https://restapi.e-conomic.com/accounts/6861;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6862;1382005;status;Mellemregning Iben;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6862;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6863;1382005;status;Mellemregning Malene;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6863;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6864;1382005;status;Mellemregning Prop 1;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6864;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6865;1382005;status;Mellemregning Mylo (Dionysos);0;debit;0;I25;https://restapi.e-conomic.com/accounts/6865;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6868;1382005;status;Mellemregning: Sølvgade;329264;debit;0;\N;https://restapi.e-conomic.com/accounts/6868;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6869;1382005;status;Mellemregning The Mark OpCo;14454,06;debit;0;\N;https://restapi.e-conomic.com/accounts/6869;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6870;1382005;status;Mellemregning Sundvænget;3408,5;debit;0;\N;https://restapi.e-conomic.com/accounts/6870;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6871;1382005;status;Mellemregning Gl. Kongevej 74A;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6871;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6872;1382005;status;Mellemregning Finsensvej 80;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6872;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6873;1382005;status;Mellemregning Finsensvej 84;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6873;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6874;1382005;status;Mellemregning BB28;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6874;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6875;1382005;status;Mellemregning First Home;2217,5;debit;0;\N;https://restapi.e-conomic.com/accounts/6875;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6876;1382005;status;Mellemregning GLK Invest;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6876;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6877;1382005;status;Mellemregning The Archive House OpCo;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6877;10/04/2025 10.33;01/05/2025 15.59;intercompany accounts I;Balance sheet
+6878;1382005;status;Mellemregning K/S HP20;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6878;10/04/2025 10.33;01/05/2025 15.59;intercompany accounts I;Balance sheet
+6879;1382005;status;Mellemregning Værnedamsvej/Den franske skole;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6879;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6880;1382005;status;Mellemregning Archive House Management;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6880;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6881;1382005;status;Mellemregning Bådehavnsgade (BH36-38);0;debit;0;\N;https://restapi.e-conomic.com/accounts/6881;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6882;1382005;status;Mellemregning BH36;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6882;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6883;1382005;status;Mellemregning BH38;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6883;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6884;1382005;status;Mellemregning BH36-38 Holding;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6884;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6885;1382005;status;Mellemregning Cubic Meter;28888,81;debit;0;\N;https://restapi.e-conomic.com/accounts/6885;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6886;1382005;status;Mellemregning M92 III;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6886;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts II;Balance sheet
+6887;1382005;status;Mellemregning AGSHDKBV;2000;debit;0;\N;https://restapi.e-conomic.com/accounts/6887;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6888;1382005;status;Mellemregning BH46;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6888;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts II;Balance sheet
+6889;1382005;status;Mellemregning BH46-48;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6889;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts II;Balance sheet
+6890;1382005;status;Mellemregning BH48;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6890;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts II;Balance sheet
+6891;1382005;status;Mellemregning Frececo Taastrup;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6891;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts II;Balance sheet
+6892;1382005;status;Mellemregning Frececo Roskilde;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6892;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts II;Balance sheet
+6893;1382005;status;Mellemregning Hauser Plads ApS;1425283,63;debit;0;\N;https://restapi.e-conomic.com/accounts/6893;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts II;Balance sheet
+6894;1382005;status;Mellemregning: AG - husleje The Mark;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6894;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts II;Balance sheet
+6895;1382005;status;Nedskrivning mellemregning associerede;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6895;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts II;Balance sheet
+6896;1382005;status;Nedskrivning mellemregning tilknyttede;-22638,81;debit;0;\N;https://restapi.e-conomic.com/accounts/6896;10/04/2025 10.33;01/05/2025 15.59;Intercompany accounts I;Balance sheet
+6899;1382005;totalFrom;GÆLD;134493,35;debit;0;\N;https://restapi.e-conomic.com/accounts/6899;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+6900;1382005;heading;Moms og afgifter;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6900;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+6901;1382005;status;Interimskonto moms;0;credit;0;\N;https://restapi.e-conomic.com/accounts/6901;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6902;1382005;status;Udgående (salg) moms;-2226343,08;credit;0;\N;https://restapi.e-conomic.com/accounts/6902;10/04/2025 10.33;01/05/2025 15.59;VAT payables;Balance sheet
+6903;1382005;status;Indgående (køb) moms;604006,29;debit;0;\N;https://restapi.e-conomic.com/accounts/6903;10/04/2025 10.33;01/05/2025 15.59;VAT payables;Balance sheet
+6906;1382005;status;Erhvervelsesmoms (køb i udland);8663,62;debit;0;\N;https://restapi.e-conomic.com/accounts/6906;10/04/2025 10.33;01/05/2025 15.59;VAT payables;Balance sheet
+6907;1382005;status;Erhvervelsesmoms (modkonto);-8663,62;credit;0;\N;https://restapi.e-conomic.com/accounts/6907;10/04/2025 10.33;01/05/2025 15.59;VAT payables;Balance sheet
+6910;1382005;status;Olieafgift;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6910;10/04/2025 10.33;01/05/2025 15.59;VAT payables;Balance sheet
+6911;1382005;status;Elafgift;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6911;10/04/2025 10.33;01/05/2025 15.59;VAT payables;Balance sheet
+6914;1382005;status;CO2-afgift;0;credit;0;\N;https://restapi.e-conomic.com/accounts/6914;10/04/2025 10.33;01/05/2025 15.59;VAT payables;Balance sheet
+6917;1382005;status;Betalt moms;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6917;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6918;1382005;totalFrom;Moms og afgifter i alt;-1622336,79;debit;0;\N;https://restapi.e-conomic.com/accounts/6918;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+6919;1382005;heading;Anden gæld;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6919;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+6920;1382005;status;Skyldig A-skat;-487;credit;0;\N;https://restapi.e-conomic.com/accounts/6920;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6921;1382005;status;Skyldig ATP;-19899;credit;0;\N;https://restapi.e-conomic.com/accounts/6921;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6922;1382005;status;Skyldig pension;0;credit;0;\N;https://restapi.e-conomic.com/accounts/6922;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6923;1382005;status;Skyldige feriepenge & SH;-5932,52;credit;0;\N;https://restapi.e-conomic.com/accounts/6923;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6924;1382005;status;Skyldig DA-barsel;0;credit;0;\N;https://restapi.e-conomic.com/accounts/6924;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6925;1382005;status;Indefrosset feriepenge;0;debit;0;\N;https://restapi.e-conomic.com/accounts/6925;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6930;1382005;status;Skyldig AM-bidrag;0;credit;0;\N;https://restapi.e-conomic.com/accounts/6930;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6940;1382005;status;Skyldige lønninger;0;credit;0;\N;https://restapi.e-conomic.com/accounts/6940;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6945;1382005;status;Andre skyldige løn poster;0;credit;0;\N;https://restapi.e-conomic.com/accounts/6945;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6946;1382005;status;Hensat feriepengeforpligtelse;-421625,13;credit;0;\N;https://restapi.e-conomic.com/accounts/6946;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+6950;1382005;status;Skattekonto;14,03;credit;0;\N;https://restapi.e-conomic.com/accounts/6950;01/05/2025 15.59;01/05/2025 15.59;Other payables;Balance sheet
+6999;1382005;totalFrom;Anden gæld i alt;-447929,62;debit;0;\N;https://restapi.e-conomic.com/accounts/6999;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+7999;1382005;totalFrom;GÆLD I ALT;-1935773,06;debit;0;\N;https://restapi.e-conomic.com/accounts/7999;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+8999;1382005;sumInterval;PASSIVER I ALT;-7368239,32;debit;0;\N;https://restapi.e-conomic.com/accounts/8999;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A
+9900;1382005;status;Analyse/fejlkonto;0;debit;0;\N;https://restapi.e-conomic.com/accounts/9900;10/04/2025 10.33;01/05/2025 15.59;Other payables;Balance sheet
+9990;1382005;totalFrom;Nulkontrol;0;debit;0;\N;https://restapi.e-conomic.com/accounts/9990;10/04/2025 10.33;01/05/2025 15.59;#N/A;#N/A

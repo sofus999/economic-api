@@ -1,0 +1,132 @@
+/* Main styles */
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card styling */
+.card {
+  border-radius: 0.5rem;
+  border: none;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+/* Table styling */
+.table th {
+  font-weight: 600;
+  border-top: none;
+  background-color: #f8f9fa;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.account-table tr, .entries-table tr, .invoices-table tr {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.account-table tr:hover, .entries-table tr:hover, .invoices-table tr:hover {
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+/* Balance amount styling */
+.account-balance {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.positive-amount {
+  color: #198754;
+}
+
+.negative-amount {
+  color: #dc3545;
+}
+
+.neutral-amount {
+  color: #212529;
+}
+
+/* Status badges */
+.status-badge {
+  padding: 0.35rem 0.65rem;
+  border-radius: 50rem;
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-paid {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #664d03;
+}
+
+.status-overdue {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+.status-draft {
+  background-color: #e2e3e5;
+  color: #41464b;
+}
+
+.status-partial {
+  background-color: #cff4fc;
+  color: #055160;
+}
+
+/* Chart container */
+#monthly-chart {
+  max-height: 300px;
+}
+
+/* Form control focus */
+.form-control:focus, .form-select:focus {
+  border-color: rgba(13, 110, 253, 0.5);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Transitions */
+.tab-pane {
+  transition: all 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .card-header .d-flex {
+    margin-top: 0.75rem;
+    width: 100%;
+  }
+
+  .card-header .form-control,
+  .card-header .form-select {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .pagination-controls {
+    margin-top: 0.5rem;
+  }
+} 
