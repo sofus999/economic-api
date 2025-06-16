@@ -361,8 +361,26 @@ log "✅ All system packages installed and verified successfully!"
 
 log "Setting up MySQL database..."
 
-# Secure MySQL installation and set root password
-ROOT_PASSWORD="Jrv2r4nxh!"
+# Load root password from environment or prompt securely
+if [[ -f "$(dirname "$0")/../.env" ]]; then
+    # Load from .env file if it exists
+    source "$(dirname "$0")/../.env"
+    ROOT_PASSWORD="${DATABASE_ROOT_PASSWORD:-${DB_ROOT_PASSWORD}}"
+elif [[ -n "$DATABASE_ROOT_PASSWORD" ]]; then
+    ROOT_PASSWORD="$DATABASE_ROOT_PASSWORD"
+elif [[ -n "$DB_ROOT_PASSWORD" ]]; then
+    ROOT_PASSWORD="$DB_ROOT_PASSWORD"
+else
+    # Security improvement - prompt user instead of hardcoded password
+    log "Database root password not found in environment variables."
+    read -s -p "Enter MySQL root password: " ROOT_PASSWORD
+    echo
+fi
+
+if [[ -z "$ROOT_PASSWORD" ]]; then
+    error "MySQL root password is required but not provided"
+    exit 1
+fi
 
 # Try different methods to connect to MySQL root
 log "Configuring MySQL root authentication..."

@@ -49,18 +49,25 @@ except ImportError:
 # ──────────────────────────────────────────────────────────────
 def get_database_engine():
     """Get database engine with environment variable support"""
+    # First try to get from environment
     db_url = os.getenv('DATABASE_URL')
     if db_url:
         logger.info("Using DATABASE_URL from environment")
         engine = create_engine(db_url, pool_recycle=3600, pool_pre_ping=True)
     else:
-        # Fallback to original configuration
-        logger.info("Using default database configuration")
-        engine = create_engine(
-            "mysql+pymysql://root:Jrv2r4nxh!@127.0.0.1/economic_data",
-            pool_recycle=3600,
-            pool_pre_ping=True,
-        )
+        # Try to construct from individual environment variables
+        db_host = os.getenv('DB_HOST', '127.0.0.1')
+        db_port = os.getenv('DB_PORT', '3306')
+        db_name = os.getenv('DB_NAME', 'economic_data')
+        db_user = os.getenv('DB_ROOT_USER', 'root')
+        db_password = os.getenv('DATABASE_ROOT_PASSWORD', os.getenv('DB_ROOT_PASSWORD'))
+        
+        if db_password:
+            logger.info("Using database credentials from environment variables")
+            db_url = f"mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+            engine = create_engine(db_url, pool_recycle=3600, pool_pre_ping=True)
+        else:
+            raise ValueError("Database password not found in environment variables. Set DATABASE_ROOT_PASSWORD or DB_ROOT_PASSWORD in .env file")
     return engine
 
 ENGINE = get_database_engine()

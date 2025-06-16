@@ -31,6 +31,8 @@ import threading
 
 # Load environment variables
 load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sharepoint.env'))
+# Also load the main .env file for database credentials
+load_dotenv()
 
 # Import SharePoint client
 try:
@@ -54,9 +56,13 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-# Database connection - using same config as your import script
+# Database connection - using environment variables for security
+DB_ROOT_PASSWORD = os.getenv('DATABASE_ROOT_PASSWORD', os.getenv('DB_ROOT_PASSWORD', ''))
+if not DB_ROOT_PASSWORD:
+    raise ValueError("DATABASE_ROOT_PASSWORD must be set in environment variables")
+
 ENGINE = create_engine(
-    "mysql+pymysql://root:Jrv2r4nxh!@127.0.0.1/economic_data",
+    f"mysql+pymysql://root:{DB_ROOT_PASSWORD}@127.0.0.1/economic_data",
     pool_recycle=3600,
     pool_pre_ping=True,
 )
@@ -1291,11 +1297,14 @@ ENHANCED_DASHBOARD_HTML = """
                         .slice(-50) // Show last 50 lines
                         .map(line => {
                             // Escape HTML to prevent issues
-                            const escapedLine = line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');                            // Color code log levels
+                            const escapedLine = line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+                            // Color code log levels
                             if (line.includes('ERROR')) {
                                 return '<div class="log-line error">' + escapedLine + '</div>';
-                            } else if (line.includes('WARN')) {                                return '<div class="log-line warning">' + escapedLine + '</div>';
-                            } else if (line.includes('INFO')) {                                return '<div class="log-line info">' + escapedLine + '</div>';
+                            } else if (line.includes('WARN')) {
+                                return '<div class="log-line warning">' + escapedLine + '</div>';
+                            } else if (line.includes('INFO')) {
+                                return '<div class="log-line info">' + escapedLine + '</div>';
                             } else {
                                 return '<div class="log-line">' + escapedLine + '</div>';
                             }
