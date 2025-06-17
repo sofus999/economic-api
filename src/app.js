@@ -6,6 +6,7 @@ const logger = require('./modules/core/logger');
 
 // Import routes
 const invoiceRoutes = require('./modules/invoices/invoice.routes');
+const voucherRoutes = require('./modules/vouchers/voucher.routes');
 const agreementRoutes = require('./modules/agreements/agreement.routes');
 const paymentTermsRoutes = require('./modules/payment-terms/payment-terms.routes');
 const productGroupsRoutes = require('./modules/product-groups/product-group.routes');
@@ -60,6 +61,7 @@ app.get('/health', (req, res) => {
 
 // Endpoints for modules
 app.use('/api/invoices', invoiceRoutes);
+app.use('/api/vouchers', voucherRoutes);
 app.use('/api/agreements', agreementRoutes);
 app.use('/api/payment-terms', paymentTermsRoutes);
 app.use('/api/product-group', productGroupsRoutes);
