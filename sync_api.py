@@ -746,8 +746,8 @@ ENHANCED_DASHBOARD_HTML = """
                         <button class="button" onclick="triggerEconomicFullSync()" id="economicFullSyncBtn">
                             <span>🔄</span> Full E-conomic Sync
                         </button>
-                        <button class="button" onclick="triggerEconomicInvoiceSync()" id="economicInvoiceSyncBtn">
-                            <span>📄</span> Invoice Sync
+                        <button class="button" onclick="triggerEconomicDailySync()" id="economicDailySyncBtn">
+                            <span>📅</span> Daily Sync
                         </button>
                         <button class="button secondary" onclick="testSharePointConnection()">
                             <span>🔗</span> Test Connection
@@ -941,7 +941,7 @@ ENHANCED_DASHBOARD_HTML = """
                 
                 // Update sync buttons state
                 const economicFullSyncBtn = document.getElementById('economicFullSyncBtn');
-                const economicInvoiceSyncBtn = document.getElementById('economicInvoiceSyncBtn');
+                const economicDailySyncBtn = document.getElementById('economicDailySyncBtn');
                 const sharePointSyncBtn = document.getElementById('sharePointSyncBtn');
                 
                 if (result.isSyncRunning) {
@@ -949,9 +949,9 @@ ENHANCED_DASHBOARD_HTML = """
                         economicFullSyncBtn.disabled = true;
                         economicFullSyncBtn.innerHTML = '⏳ Sync Running...';
                     }
-                    if (economicInvoiceSyncBtn) {
-                        economicInvoiceSyncBtn.disabled = true;
-                        economicInvoiceSyncBtn.innerHTML = '⏳ Sync Running...';
+                    if (economicDailySyncBtn) {
+                        economicDailySyncBtn.disabled = true;
+                        economicDailySyncBtn.innerHTML = '⏳ Sync Running...';
                     }
                     if (sharePointSyncBtn) {
                         sharePointSyncBtn.disabled = true;
@@ -962,9 +962,9 @@ ENHANCED_DASHBOARD_HTML = """
                         economicFullSyncBtn.disabled = false;
                         economicFullSyncBtn.innerHTML = '<span>🔄</span> Full E-conomic Sync';
                     }
-                    if (economicInvoiceSyncBtn) {
-                        economicInvoiceSyncBtn.disabled = false;
-                        economicInvoiceSyncBtn.innerHTML = '<span>📄</span> Invoice Sync';
+                    if (economicDailySyncBtn) {
+                        economicDailySyncBtn.disabled = false;
+                        economicDailySyncBtn.innerHTML = '<span>📅</span> Daily Sync';
                     }
                     if (sharePointSyncBtn) {
                         sharePointSyncBtn.disabled = false;
@@ -1068,20 +1068,20 @@ ENHANCED_DASHBOARD_HTML = """
             }
         }
         
-        async function triggerEconomicInvoiceSync() {
-            const btn = document.getElementById('economicInvoiceSyncBtn');
+        async function triggerEconomicDailySync() {
+            const btn = document.getElementById('economicDailySyncBtn');
             if (btn && btn.disabled) return;
             
             const originalText = btn ? btn.innerHTML : '';
             if (btn) {
                 btn.disabled = true;
-                btn.innerHTML = '⏳ Starting invoice sync...';
+                btn.innerHTML = '⏳ Starting daily sync...';
             }
             
-            showStatus('info', 'Starting E-conomic invoice sync operation...');
+            showStatus('info', 'Starting E-conomic daily sync operation (current year only with PDF checking)...');
             
             try {
-                const response = await fetch('/sync-economic-invoices', {
+                const response = await fetch('/sync-economic-daily', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 });
@@ -1089,18 +1089,18 @@ ENHANCED_DASHBOARD_HTML = """
                 const result = await response.json();
                 
                 if (response.ok) {
-                    showStatus('success', `✅ Invoice sync started successfully! ${result.message || ''}`);
+                    showStatus('success', `✅ Daily sync started successfully! ${result.message || ''}`);
                     setTimeout(() => {
                         loadQuickStatus();
                         loadEnhancedStats();
                         loadSyncHistory();
                     }, 1000);
                 } else {
-                    showStatus('error', `❌ Invoice sync failed: ${result.message || 'Unknown error'}`);
+                    showStatus('error', `❌ Daily sync failed: ${result.message || 'Unknown error'}`);
                 }
             } catch (error) {
-                console.error('Error triggering invoice sync:', error);
-                showStatus('error', `❌ Invoice sync failed: ${error.message}`);
+                console.error('Error triggering daily sync:', error);
+                showStatus('error', `❌ Daily sync failed: ${error.message}`);
             } finally {
                 if (btn) {
                     btn.disabled = false;
@@ -2927,13 +2927,13 @@ def get_error_logs():
 
 @app.route('/sync-economic-full', methods=['POST'])
 def trigger_economic_full_sync():
-    """Trigger full E-conomic API sync with running status tracking"""
-    return trigger_economic_sync('full_sync', '/api/sync', 'Full E-conomic sync')
+    """Trigger full E-conomic API sync with PDF checking and running status tracking"""
+    return trigger_economic_sync('economic_full_sync', '/api/sync/full', 'Full E-conomic sync')
 
-@app.route('/sync-economic-invoices', methods=['POST'])
-def trigger_economic_invoice_sync():
-    """Trigger E-conomic invoice sync with running status tracking"""
-    return trigger_economic_sync('invoices_all_agreements', '/api/invoices/sync', 'Invoice sync')
+@app.route('/sync-economic-daily', methods=['POST'])
+def trigger_economic_daily_sync():
+    """Trigger daily E-conomic sync (current year only) with PDF checking and running status tracking"""
+    return trigger_economic_sync('economic_daily_sync', '/api/sync/daily', 'Daily E-conomic sync')
 
 def trigger_economic_sync(entity_name, api_endpoint, display_name):
     """Generic function to trigger E-conomic API syncs with running status tracking"""

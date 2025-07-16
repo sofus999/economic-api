@@ -82,10 +82,11 @@ module.exports = {
     },
     {
       name: 'economic-daily-sync',
-      script: 'src/sync.js',
+      script: './scripts/trigger_daily_sync.sh',
       instances: 1,
       autorestart: false,
       watch: false,
+      interpreter: 'bash',
       // Run daily at 3 AM
       cron_restart: '0 3 * * *',
       env_production: {
@@ -94,10 +95,8 @@ module.exports = {
       },
       // Auto restart on error with exponential backoff
       exp_backoff_restart_delay: 1000,
-      // Add more memory for the sync process
-      max_memory_restart: '2G',
-      // Set timeout higher for sync process
-      kill_timeout: 60000, // 60 seconds
+      // Set timeout higher for sync process (3 hours)
+      kill_timeout: 10800000, // 3 hours in milliseconds
       // Logs
       out_file: 'logs/sync-out.log',
       error_file: 'logs/sync-error.log',

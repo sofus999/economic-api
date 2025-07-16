@@ -33,43 +33,33 @@ let isCompleted = false;
 let hasErrors = false;
 
 /**
- * Run the sync process with error handling and retry
+ * Run the DAILY sync process with error handling and retry
+ * This version only syncs the current (non-closed) accounting year with PDF checking
  */
 async function runSync() {
   const startTime = new Date();
-  logger.info('Starting complete data synchronization');
+  logger.info('Starting DAILY data synchronization (current year only with PDF checking)');
   
   try {
     // Ensure database migrations are up to date
     await runMigrations();
     
-    // Define services to sync in logical order and groups
-    // Group services that can run in parallel without dependencies
+    // For daily sync, we focus primarily on current accounting data
+    // Other reference data is synced less frequently
     const syncGroups = [
-      // Group 1: Basic reference data
+      // Group 1: Essential reference data (quick sync)
       [
         { name: 'paymentTerms', service: paymentTermsService, method: 'syncAllPaymentTerms', label: 'payment terms' },
-        { name: 'productGroups', service: productGroupService, method: 'syncAllProductGroups', label: 'product groups' },
         { name: 'vatAccounts', service: vatAccountService, method: 'syncAllVatAccounts', label: 'VAT accounts' },
-        { name: 'supplierGroups', service: supplierGroupService, method: 'syncAllSupplierGroups', label: 'supplier groups' },
-        { name: 'accountingYears', service: accountingYearService, method: 'syncAllAccountingYears', label: 'accounting years' },
         { name: 'departments', service: departmentService, method: 'syncAllDepartments', label: 'departments' },
       ],
       
-      // Group 2: Items that depend on reference data
+      // Group 2: Current year accounting data with PDF checking (main focus)
       [
-        { name: 'products', service: productService, method: 'syncAllProducts', label: 'products' },
-        { name: 'accounts', service: accountService, method: 'syncAllAccounts', label: 'accounts' },
-        { name: 'suppliers', service: supplierService, method: 'syncAllSuppliers', label: 'suppliers' },
-        { name: 'customers', service: customerService, method: 'syncAllCustomers', label: 'customers' },
+        { name: 'accountingYears', service: accountingYearService, method: 'syncCurrentYearOnly', label: 'current accounting year (with PDF checking)' },
       ],
       
-      // Group 3: Complex items that depend on multiple other entities
-      [
-        { name: 'departmentalDistributions', service: departmentalDistributionService, method: 'syncAllDistributions', label: 'departmental distributions' },
-      ],
-      
-      // Group 4: Transaction data (keep sequential due to large data volume)
+      // Group 3: Current invoices and journals
       [
         { name: 'invoices', service: invoiceService, method: 'syncAllInvoices', label: 'invoices' },
         { name: 'journals', service: journalService, method: 'syncAllJournals', label: 'journals' }
@@ -79,7 +69,7 @@ async function runSync() {
     // Process each group in sequence, but services within a group in parallel
     for (let groupIndex = 0; groupIndex < syncGroups.length; groupIndex++) {
       const group = syncGroups[groupIndex];
-      logger.info(`Processing sync group ${groupIndex + 1} of ${syncGroups.length} with ${group.length} services`);
+      logger.info(`Processing daily sync group ${groupIndex + 1} of ${syncGroups.length} with ${group.length} services`);
       
       // Process all services in this group concurrently
       const groupPromises = group.map(async ({ name, service, method, label }) => {
@@ -89,14 +79,14 @@ async function runSync() {
         
         while (!success && retries > 0) {
           try {
-            logger.info(`Starting sync of ${label}...`);
+            logger.info(`Starting daily sync of ${label}...`);
             results[name] = await service[method]();
             success = true;
-            logger.info(`Successfully completed sync of ${label}`);
+            logger.info(`Successfully completed daily sync of ${label}`);
           } catch (error) {
             retries--;
             const retryMessage = retries > 0 ? `, retrying (${retries} attempts left)` : ', giving up';
-            logger.error(`Error syncing ${label}: ${error.message}${retryMessage}`);
+            logger.error(`Error in daily sync of ${label}: ${error.message}${retryMessage}`);
             
             if (retries > 0) {
               // Wait before retrying
@@ -134,13 +124,13 @@ async function runSync() {
       };
     });
     
-    logger.info(`Complete sync finished in ${duration}ms`);
-    logger.info(`Sync results: ${logger.safeStringify(resultsSummary)}`);
+    logger.info(`Daily sync finished in ${duration}ms`);
+    logger.info(`Daily sync results: ${logger.safeStringify(resultsSummary)}`);
     
     isCompleted = true;
     return resultsSummary;
   } catch (error) {
-    logger.error('Fatal error in sync process:', error);
+    logger.error('Fatal error in daily sync process:', error);
     hasErrors = true;
     throw error;
   } finally {
@@ -157,11 +147,11 @@ async function runSync() {
 if (require.main === module) {
   runSync()
     .then(() => {
-      logger.info('Sync completed successfully');
+      logger.info('Daily sync completed successfully');
       process.exit(hasErrors ? 1 : 0);
     })
     .catch(error => {
-      logger.error('Sync failed with fatal error:', error);
+      logger.error('Daily sync failed with fatal error:', error);
       process.exit(1);
     });
 }

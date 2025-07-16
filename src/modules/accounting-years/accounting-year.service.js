@@ -7,6 +7,8 @@ const AccountingEntryModel = require('./accounting-entry.model');
 const AccountingTotalModel = require('./accounting-total.model');
 const AgreementModel = require('../agreements/agreement.model');
 const logger = require('../core/logger');
+const axios = require('axios');
+const config = require('../../config');
 
 class AccountingYearService {
   /**
@@ -14,6 +16,118 @@ class AccountingYearService {
    */
   getClientForAgreement(agreementToken) {
     return ApiClient.forAgreement(agreementToken);
+  }
+
+  /**
+   * Get current (non-closed) accounting years for all agreements
+   */
+  async getCurrentAccountingYears() {
+    try { 
+      const currentYears = new Map();
+      const agreements = await AgreementModel.getAll(true);
+      
+      for (const agreement of agreements) {
+        try {
+          const client = this.getClientForAgreement(agreement.agreement_grant_token);
+          const accountingYears = await client.getPaginated('/accounting-years');
+          
+          // Find the first non-closed year (should be the current year)
+          const currentYear = accountingYears.find(year => !year.closed);
+          if (currentYear) {
+            currentYears.set(agreement.agreement_number, currentYear.year);
+            logger.info(`Current year for agreement ${agreement.agreement_number}: ${currentYear.year}`);
+          }
+        } catch (error) {
+          logger.error(`Error getting current year for agreement ${agreement.agreement_number}:`, error.message);
+        }
+      }
+      
+      return currentYears;
+    } catch (error) {
+      logger.error('Error getting current accounting years:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Check if voucher has PDF document available
+   */
+  async checkVoucherPdfAvailability(voucherNumber, agreementNumber, agreementToken) {
+    try {
+      if (!voucherNumber || !agreementNumber || !agreementToken) {
+        return false;
+      }
+
+      const documentsApiUrl = `https://apis.e-conomic.com/documentsapi/v2.1.0/AttachedDocuments?filter=voucherNumber$eq:${voucherNumber}`;
+      
+      const response = await axios({
+        method: 'GET',
+        url: documentsApiUrl,
+        headers: {
+          'X-AppSecretToken': config.api.appSecretToken,
+          'X-AgreementGrantToken': agreementToken,
+          'Content-Type': 'application/json'
+        },
+        timeout: 10000, // 10 second timeout
+        validateStatus: function (status) {
+          return status < 500; // Accept all status codes below 500
+        }
+      });
+      
+      if (response.status === 200 && response.data.items && response.data.items.length > 0) {
+        logger.debug(`PDF available for voucher ${voucherNumber} in agreement ${agreementNumber}`);
+        return true;
+      }
+      
+      return false;
+    } catch (error) {
+      logger.debug(`No PDF available for voucher ${voucherNumber} in agreement ${agreementNumber}: ${error.message}`);
+      return false;
+    }
+  }
+
+  /**
+   * Update accounting entries with PDF availability information
+   */
+  async updateEntriesWithPdfAvailability(entries, agreementNumber, agreementToken) {
+    try {
+      const updatedEntries = [];
+      const batchSize = 50; // Process in smaller batches to avoid overwhelming the API
+      
+      for (let i = 0; i < entries.length; i += batchSize) {
+        const batch = entries.slice(i, i + batchSize);
+        const batchPromises = batch.map(async (entry) => {
+          let hasPdf = false;
+          
+          // Customer invoices ALWAYS have PDFs available via the invoice API
+          if (entry.entry_type === 'customerInvoice') {
+            hasPdf = true;
+          }
+          // Only check for PDF availability for voucher types that might have PDFs
+          else if (entry.voucher_number && ['financeVoucher', 'supplierInvoice', 'supplierPayment', 'manualDebtorInvoice', 'reminder'].includes(entry.entry_type)) {
+            hasPdf = await this.checkVoucherPdfAvailability(entry.voucher_number, agreementNumber, agreementToken);
+          }
+          
+          return {
+            ...entry,
+            has_pdf_document: hasPdf
+          };
+        });
+        
+        const batchResults = await Promise.all(batchPromises);
+        updatedEntries.push(...batchResults);
+        
+        // Small delay between batches to be nice to the API
+        if (i + batchSize < entries.length) {
+          await new Promise(resolve => setTimeout(resolve, 200));
+        }
+      }
+      
+      return updatedEntries;
+    } catch (error) {
+      logger.error('Error updating entries with PDF availability:', error.message);
+      return entries; // Return original entries if PDF checking fails
+    }
   }
 
   /**
@@ -136,12 +250,12 @@ class AccountingYearService {
   /**
    * Sync accounting years for a specific agreement
    */
-  async syncAccountingYearsForAgreement(agreement) {
+  async syncAccountingYearsForAgreement(agreement, checkPdfAvailability = false) {
     const startTime = new Date();
     let recordCount = 0;
     
     try {
-      logger.info(`Starting accounting years sync for agreement ${agreement.name} (${agreement.agreement_number})`);
+      logger.info(`Starting accounting years sync for agreement ${agreement.name} (${agreement.agreement_number}) with PDF check: ${checkPdfAvailability}`);
       
       const client = this.getClientForAgreement(agreement.agreement_grant_token);
       const agreementInfo = await client.getAgreementInfo();
@@ -161,7 +275,7 @@ class AccountingYearService {
           yearData.start_date, yearData.end_date);
         
         // Sync periods for each year
-        await this.syncAccountingPeriodsForYear(agreement, yearId);
+        await this.syncAccountingPeriodsForYear(agreement, yearId, checkPdfAvailability);
       }
       
       await AccountingYearModel.recordSyncLog(
@@ -199,12 +313,12 @@ class AccountingYearService {
   /**
    * Sync accounting periods for a specific year
    */
-  async syncAccountingPeriodsForYear(agreement, yearId) {
+  async syncAccountingPeriodsForYear(agreement, yearId, checkPdfAvailability = false) {
     const startTime = new Date();
     let recordCount = 0;
     
     try {
-      logger.info(`Starting accounting periods sync for year ${yearId} and agreement ${agreement.name}`);
+      logger.info(`Starting accounting periods sync for year ${yearId} and agreement ${agreement.name} (PDF check: ${checkPdfAvailability})`);
       
       const client = this.getClientForAgreement(agreement.agreement_grant_token);
       const agreementInfo = await client.getAgreementInfo();
@@ -232,7 +346,7 @@ class AccountingYearService {
         
         // Sync entries and totals for each period
         try {
-          await this.syncAccountingEntriesForPeriod(agreement, yearId, period.periodNumber);
+          await this.syncAccountingEntriesForPeriod(agreement, yearId, period.periodNumber, checkPdfAvailability);
         } catch (error) {
           logger.error(`Error syncing entries for period ${period.periodNumber}: ${error.message}`);
         }
@@ -296,9 +410,9 @@ class AccountingYearService {
   }
 
   /**
-   * Sync accounting entries for a specific period
+   * Sync accounting entries for a specific period with PDF availability checking
    */
-  async syncAccountingEntriesForPeriod(agreement, yearId, apiPeriodNumber) {
+  async syncAccountingEntriesForPeriod(agreement, yearId, apiPeriodNumber, checkPdfAvailability = false) {
     const startTime = new Date();
     let recordCount = 0;
     
@@ -323,18 +437,28 @@ class AccountingYearService {
         throw new Error(`Cannot sync entries: period ${normalizedPeriodNumber} does not exist for year ${yearId}`);
       }
       
-      const entries = await client.getPaginated(`/accounting-years/${yearId}/periods/${apiPeriodNumber}/entries`);
+      let entries = await client.getPaginated(`/accounting-years/${yearId}/periods/${apiPeriodNumber}/entries`);
       logger.info(`Found ${entries.length} accounting entries for period ${apiPeriodNumber}, year ${yearId} and agreement ${agreementNumber}`);
+      
+      // Transform entries first
+      const transformedEntries = entries.map(entry => 
+        this.transformAccountingEntryData(entry, yearId, apiPeriodNumber, agreementNumber)
+      );
+      
+      // Check PDF availability if requested
+      if (checkPdfAvailability) {
+        logger.info(`Checking PDF availability for ${transformedEntries.length} entries...`);
+        const entriesWithPdf = await this.updateEntriesWithPdfAvailability(transformedEntries, agreementNumber, agreement.agreement_grant_token);
+        
+        // Update database with PDF availability information
+        await this.updatePdfAvailabilityInDatabase(entriesWithPdf);
+      }
       
       // Process entries in batches to avoid memory issues
       const batchSize = 100;
-      for (let i = 0; i < entries.length; i += batchSize) {
-        const batch = entries.slice(i, i + batchSize);
-        const transformedEntries = batch.map(entry => 
-          this.transformAccountingEntryData(entry, yearId, apiPeriodNumber, agreementNumber)
-        );
-        
-        const result = await AccountingEntryModel.batchUpsert(transformedEntries);
+      for (let i = 0; i < transformedEntries.length; i += batchSize) {
+        const batch = transformedEntries.slice(i, i + batchSize);
+        const result = await AccountingEntryModel.batchUpsert(batch);
         recordCount += result.inserted + result.updated;
       }
       
@@ -526,15 +650,177 @@ class AccountingYearService {
   }
 
   /**
-   * Sync all accounting years across all agreements
+   * Update database with PDF availability information
    */
-  async syncAllAccountingYears() {
+  async updatePdfAvailabilityInDatabase(entries) {
+    try {
+      const db = require('../../db');
+      
+      // Create a table to store PDF availability if it doesn't exist
+      await db.query(`
+        CREATE TABLE IF NOT EXISTS voucher_pdf_availability (
+          voucher_number INT NOT NULL,
+          agreement_number INT NOT NULL,
+          has_pdf BOOLEAN NOT NULL,
+          last_checked TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          PRIMARY KEY (voucher_number, agreement_number)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+      `);
+      
+      // Update PDF availability for vouchers
+      for (const entry of entries) {
+        if (entry.voucher_number && entry.has_pdf_document !== undefined) {
+          await db.query(`
+            INSERT INTO voucher_pdf_availability (voucher_number, agreement_number, has_pdf)
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE has_pdf = VALUES(has_pdf), last_checked = CURRENT_TIMESTAMP
+          `, [entry.voucher_number, entry.agreement_number, entry.has_pdf_document]);
+        }
+      }
+      
+      logger.info(`Updated PDF availability for ${entries.filter(e => e.voucher_number).length} vouchers`);
+    } catch (error) {
+      logger.error('Error updating PDF availability in database:', error.message);
+    }
+  }
+
+  /**
+   * Sync accounting years for current year only (daily sync)
+   */
+  async syncCurrentYearOnly() {
     const startTime = new Date();
     const agreementResults = [];
     let totalCount = 0;
     
     try {
-      logger.info('Starting sync of accounting years across all agreements');
+      logger.info('Starting daily sync of current accounting year across all agreements');
+      
+      const agreements = await AgreementModel.getAll(true);
+      
+      if (agreements.length === 0) {
+        logger.warn('No active agreements found for sync');
+        return {
+          status: 'warning',
+          message: 'No active agreements found',
+          results: [],
+          totalCount: 0
+        };
+      }
+      
+      // Get current years for all agreements
+      const currentYears = await this.getCurrentAccountingYears();
+      
+      for (const agreement of agreements) {
+        try {
+          const currentYear = currentYears.get(agreement.agreement_number);
+          if (!currentYear) {
+            logger.warn(`No current year found for agreement ${agreement.name}, skipping`);
+            continue;
+          }
+          
+          logger.info(`Syncing current year ${currentYear} for agreement ${agreement.name}`);
+          const result = await this.syncAccountingYearForAgreement(agreement, currentYear, true); // true = check PDF availability
+          agreementResults.push(result);
+          totalCount += result.recordCount;
+        } catch (error) {
+          logger.error(`Error syncing current year for agreement ${agreement.name}:`, error.message);
+          agreementResults.push({
+            agreement: {
+              id: agreement.id,
+              name: agreement.name,
+              agreement_number: agreement.agreement_number
+            },
+            status: 'error',
+            error: error.message
+          });
+        }
+      }
+      
+      logger.info(`Completed daily sync across all agreements: ${totalCount} records processed`);
+      
+      return {
+        status: 'success',
+        results: agreementResults,
+        totalCount,
+        syncType: 'daily'
+      };
+      
+    } catch (error) {
+      logger.error('Error in daily sync process:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Sync specific accounting year for agreement with optional PDF checking
+   */
+  async syncAccountingYearForAgreement(agreement, yearId, checkPdfAvailability = false) {
+    const startTime = new Date();
+    let recordCount = 0;
+    
+    try {
+      logger.info(`Starting accounting year ${yearId} sync for agreement ${agreement.name} (PDF check: ${checkPdfAvailability})`);
+      
+      const client = this.getClientForAgreement(agreement.agreement_grant_token);
+      const agreementInfo = await client.getAgreementInfo();
+      const agreementNumber = agreementInfo.agreementNumber;
+      
+      // Get the specific year data
+      const yearData = await client.get(`/accounting-years/${yearId}`);
+      const transformedYearData = this.transformAccountingYearData(yearData, agreementNumber);
+      await AccountingYearModel.upsert(transformedYearData);
+      recordCount++;
+      
+      // Ensure period 0 exists for year totals
+      await this.ensurePeriodExists(0, yearId, agreementNumber, 
+        transformedYearData.start_date, transformedYearData.end_date);
+      
+      // Sync periods for this year
+      await this.syncAccountingPeriodsForYear(agreement, yearId, checkPdfAvailability);
+      
+      await AccountingYearModel.recordSyncLog(
+        agreementNumber,
+        recordCount,
+        null,
+        startTime
+      );
+      
+      logger.info(`Completed accounting year ${yearId} sync for agreement ${agreementNumber}: ${recordCount} records processed`);
+      
+      return {
+        agreement: {
+          id: agreement.id,
+          name: agreement.name,
+          agreement_number: agreementNumber
+        },
+        yearId,
+        recordCount
+      };
+      
+    } catch (error) {
+      logger.error(`Error syncing accounting year ${yearId} for agreement ${agreement.id}:`, error.message);
+      
+      await AccountingYearModel.recordSyncLog(
+        agreement.agreement_number || 'unknown',
+        recordCount,
+        error.message,
+        startTime
+      );
+      
+      throw error;
+    }
+  }
+
+  /**
+   * Sync all accounting years across all agreements with PDF checking (full sync)
+   */
+  async syncAllAccountingYears(checkPdfAvailability = false) {
+    const startTime = new Date();
+    const agreementResults = [];
+    let totalCount = 0;
+    
+    try {
+      logger.info(`Starting ${checkPdfAvailability ? 'full' : 'standard'} sync of accounting years across all agreements`);
       
       const agreements = await AgreementModel.getAll(true);
       
@@ -550,7 +836,7 @@ class AccountingYearService {
       
       for (const agreement of agreements) {
         try {
-          const result = await this.syncAccountingYearsForAgreement(agreement);
+          const result = await this.syncAccountingYearsForAgreement(agreement, checkPdfAvailability);
           agreementResults.push(result);
           totalCount += result.recordCount;
         } catch (error) {
@@ -567,12 +853,13 @@ class AccountingYearService {
         }
       }
       
-      logger.info(`Completed accounting years sync across all agreements: ${totalCount} records processed`);
+      logger.info(`Completed ${checkPdfAvailability ? 'full' : 'standard'} accounting years sync across all agreements: ${totalCount} records processed`);
       
       return {
         status: 'success',
         results: agreementResults,
-        totalCount
+        totalCount,
+        syncType: checkPdfAvailability ? 'full' : 'standard'
       };
       
     } catch (error) {
