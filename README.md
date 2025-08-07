@@ -7,7 +7,7 @@ A comprehensive Node.js application for integrating with the E-conomic REST API,
 ![Python](https://img.shields.io/badge/Python-3.8+-blue)
 ![License](https://img.shields.io/badge/license-ISC-green)
 
-## 🌟 Features
+##  Features
 
 ### Core Functionality
 - **Real-time E-conomic API Integration** - Synchronize all financial data from multiple E-conomic agreements
@@ -32,7 +32,7 @@ A comprehensive Node.js application for integrating with the E-conomic REST API,
 - **Log Management** - Automatic log rotation and cleanup
 - **Production-Ready Deployment** - PM2 process management with auto-restart
 
-## 🏗️ Architecture
+## 🏗 Architecture
 
 ### Application Stack
 - **Backend**: Node.js with Express.js framework
@@ -60,7 +60,7 @@ A comprehensive Node.js application for integrating with the E-conomic REST API,
 └── scripts/                # Deployment and maintenance scripts
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - **Node.js** 18.x or higher
@@ -121,7 +121,7 @@ python sync_api.py
 npm run start:prod
 ```
 
-## ⚙️ Configuration
+##  Configuration
 
 ### Environment Variables
 
@@ -167,7 +167,7 @@ SHAREPOINT_BUDGET_FOLDER=/sites/YourSite/Documents/Economics/Budget
    - Each agreement provides a Grant Token
    - Add tokens via the web interface at `/health`
 
-## 📊 Usage
+##  Usage
 
 ### Web Dashboard
 - **Main Dashboard**: `http://localhost:3000` - Account balance overview and financial data
@@ -223,7 +223,7 @@ Key tables include:
 - `sync_logs` - Synchronization history and error tracking
 - `agreement_configs` - Multi-agreement management
 
-## 🔄 Synchronization
+## Synchronization
 
 ### Automated Daily Sync
 The system runs automated daily synchronization at 3 AM:
@@ -245,7 +245,7 @@ Automatically downloads and imports:
 - Account mapping configurations
 - Updates database with latest financial planning data
 
-## 🏥 Health Monitoring
+##  Health Monitoring
 
 Access the health dashboard at `http://localhost:5000/health` for:
 
@@ -265,7 +265,7 @@ Access the health dashboard at `http://localhost:5000/health` for:
 - Monitor per-agreement sync status
 - View agreement-specific data counts
 
-## 🚀 Production Deployment
+##  Production Deployment
 
 ### Using PM2 (Recommended)
 ```bash
@@ -312,7 +312,7 @@ server {
 }
 ```
 
-## 🛠️ Development
+##  Development
 
 ### Project Structure
 ```
@@ -358,7 +358,7 @@ npm run restart:prod         # Restart PM2 processes
 npm run status               # Check PM2 status
 ```
 
-## 📊 Logging
+##  Logging
 
 ### Log Files
 - `logs/application.log` - Main application events
@@ -372,7 +372,7 @@ npm run status               # Check PM2 status
 - **INFO** - General operational information
 - **DEBUG** - Detailed debugging information
 
-## 🔒 Security
+##  Security
 
 ### Security Considerations
 - All credentials stored in environment files (never in code)
@@ -383,7 +383,7 @@ npm run status               # Check PM2 status
 ### Security Setup
 See [SECURITY_SETUP.md](SECURITY_SETUP.md) for detailed security configuration.
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 
@@ -439,7 +439,7 @@ sudo systemctl status mysql
 - PDF availability checking to reduce API calls
 - Intelligent retry logic with exponential backoff
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create feature branch (`git checkout -b feature/amazing-feature`)
@@ -453,17 +453,10 @@ sudo systemctl status mysql
 - Update documentation for new features
 - Test sync operations thoroughly before deployment
 
-## 📄 License
+## License
 
 This project is licensed under the ISC License.
 
-## 📞 Support
-
-For technical support or questions about the E-conomic Data Management System:
-- Review the documentation in this README
-- Check the [SECURITY_SETUP.md](SECURITY_SETUP.md) for configuration help
-- Review [HEALTH_MONITORING_README.md](HEALTH_MONITORING_README.md) for monitoring details
-- Contact the development team for additional assistance
 
 ## 🔗 Additional Documentation
 
@@ -471,6 +464,3 @@ For technical support or questions about the E-conomic Data Management System:
 - [Health Monitoring Documentation](HEALTH_MONITORING_README.md) - Monitoring system details
 - [Voucher PDF Implementation](VOUCHER_PDF_IMPLEMENTATION.md) - PDF handling documentation
 
----
-
-**Built with ❤️ for efficient financial data management**
