@@ -2,10 +2,6 @@
 
 A comprehensive Node.js application for integrating with the E-conomic REST API, providing real-time synchronization, monitoring, and management of financial data with advanced PDF document handling and SharePoint integration.
 
-![Node.js](https://img.shields.io/badge/Node.js-18.x-green)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-blue)
-![Python](https://img.shields.io/badge/Python-3.8+-blue)
-![License](https://img.shields.io/badge/license-ISC-green)
 
 ##  Features
 
@@ -425,7 +421,7 @@ sudo systemctl status mysql
 ./scripts/trigger_daily_sync.sh
 ```
 
-## 📈 Performance Optimization
+## Performance Optimization
 
 ### Database Optimization
 - Pre-computed aggregation tables for PowerBI
@@ -458,9 +454,10 @@ sudo systemctl status mysql
 This project is licensed under the ISC License.
 
 
-## 🔗 Additional Documentation
+##  Additional Documentation
 
 - [Security Setup Guide](SECURITY_SETUP.md) - Detailed security configuration
 - [Health Monitoring Documentation](HEALTH_MONITORING_README.md) - Monitoring system details
 - [Voucher PDF Implementation](VOUCHER_PDF_IMPLEMENTATION.md) - PDF handling documentation
+
 
