@@ -2080,11 +2080,18 @@ def trigger_sharepoint_sync():
             })
             sync_log_id = result.lastrowid
         
-        # Get credentials from environment
+        # Get credentials from environment - check Graph API first, then username/password
+        tenant_id = os.getenv('SHAREPOINT_TENANT_ID')
+        client_id = os.getenv('SHAREPOINT_CLIENT_ID')
+        client_secret = os.getenv('SHAREPOINT_CLIENT_SECRET')
         username = os.getenv('SHAREPOINT_USERNAME')
         password = os.getenv('SHAREPOINT_PASSWORD')
         
-        if not username or not password:
+        # Check if we have Graph API credentials OR username/password
+        has_graph_api = all([tenant_id, client_id, client_secret])
+        has_username_password = all([username, password])
+        
+        if not has_graph_api and not has_username_password:
             # Update log entry with error
             if sync_log_id:
                 with ENGINE.begin() as conn:
@@ -2093,7 +2100,7 @@ def trigger_sharepoint_sync():
                         completed_at = :completed_at, duration_ms = :duration_ms
                         WHERE id = :id
                     """), {
-                        'error_message': 'SharePoint credentials not configured',
+                        'error_message': 'SharePoint credentials not configured. Need either Graph API credentials (SHAREPOINT_TENANT_ID, SHAREPOINT_CLIENT_ID, SHAREPOINT_CLIENT_SECRET) or username/password (SHAREPOINT_USERNAME, SHAREPOINT_PASSWORD).',
                         'completed_at': datetime.now(),
                         'duration_ms': int((datetime.now() - sync_start_time).total_seconds() * 1000),
                         'id': sync_log_id
@@ -2102,8 +2109,14 @@ def trigger_sharepoint_sync():
             return jsonify({
                 'status': 'error',
                 'timestamp': datetime.now().isoformat(),
-                'message': 'SharePoint credentials not configured. Please set SHAREPOINT_USERNAME and SHAREPOINT_PASSWORD.'
+                'message': 'SharePoint credentials not configured. Need either Graph API credentials or username/password.'
             }), 500
+        
+        # Log which authentication method we're using
+        if has_graph_api:
+            logger.info("Using Graph API authentication for SharePoint")
+        else:
+            logger.info("Using username/password authentication for SharePoint")
         
         # 1. CREATE TABLES IF NOT PRESENT - EXACTLY like import_budget_mapping.py
         logger.info("💾  Creating/checking tables...")
@@ -2173,8 +2186,8 @@ def trigger_sharepoint_sync():
 
         logger.info("✔  Tables are ready.")
         
-        # Download files from SharePoint
-        download_result = download_squaremeter_files(username, password)
+        # Download files from SharePoint using auto-detected authentication method
+        download_result = download_squaremeter_files()
         
         if not download_result['success']:
             logger.error(f"SharePoint download failed: {download_result.get('error', 'Unknown error')}")
