@@ -485,9 +485,37 @@ class AccountingYearService {
       };
       
     } catch (error) {
+      const normalizedPeriodNumber = this.normalizePeriodNumber(apiPeriodNumber);
+      
+      // Handle 404 errors more gracefully - some periods may not exist
+      if (error.message && error.message.includes('404')) {
+        logger.warn(`Period ${apiPeriodNumber} (normalized: ${normalizedPeriodNumber}) not found for year ${yearId} in agreement ${agreement.name} - this is normal if the period doesn't exist yet`);
+        
+        await AccountingEntryModel.recordSyncLog(
+          agreement.agreement_number || 'unknown',
+          yearId,
+          normalizedPeriodNumber,
+          0,
+          `Period ${apiPeriodNumber} not available - skipped`,
+          startTime
+        );
+        
+        return {
+          agreement: {
+            id: agreement.id,
+            name: agreement.name,
+            agreement_number: agreement.agreement_number || 'unknown'
+          },
+          yearId,
+          period: normalizedPeriodNumber,
+          recordCount: 0,
+          status: 'skipped',
+          reason: 'Period not available'
+        };
+      }
+      
       logger.error(`Error syncing accounting entries for period ${apiPeriodNumber}, year ${yearId} and agreement ${agreement.id}:`, error.message);
       
-      const normalizedPeriodNumber = this.normalizePeriodNumber(apiPeriodNumber);
       await AccountingEntryModel.recordSyncLog(
         agreement.agreement_number || 'unknown',
         yearId,
@@ -723,16 +751,31 @@ class AccountingYearService {
           agreementResults.push(result);
           totalCount += result.recordCount;
         } catch (error) {
-          logger.error(`Error syncing current year for agreement ${agreement.name}:`, error.message);
-          agreementResults.push({
-            agreement: {
-              id: agreement.id,
-              name: agreement.name,
-              agreement_number: agreement.agreement_number
-            },
-            status: 'error',
-            error: error.message
-          });
+          // Handle 404 errors more gracefully in daily sync
+          if (error.message && error.message.includes('404')) {
+            logger.warn(`Current year not found for agreement ${agreement.name} - this may be normal for new or inactive agreements`);
+            agreementResults.push({
+              agreement: {
+                id: agreement.id,
+                name: agreement.name,
+                agreement_number: agreement.agreement_number
+              },
+              status: 'skipped',
+              reason: 'Current year not available',
+              recordCount: 0
+            });
+          } else {
+            logger.error(`Error syncing current year for agreement ${agreement.name}:`, error.message);
+            agreementResults.push({
+              agreement: {
+                id: agreement.id,
+                name: agreement.name,
+                agreement_number: agreement.agreement_number
+              },
+              status: 'error',
+              error: error.message
+            });
+          }
         }
       }
       
@@ -798,6 +841,30 @@ class AccountingYearService {
       };
       
     } catch (error) {
+      // Handle 404 errors more gracefully - some agreements may not have certain years
+      if (error.message && error.message.includes('404')) {
+        logger.warn(`Accounting year ${yearId} not found for agreement ${agreement.name} (${agreement.id}) - this is normal if the year doesn't exist yet`);
+        
+        await AccountingYearModel.recordSyncLog(
+          agreement.agreement_number || 'unknown',
+          0,
+          `Year ${yearId} not available - skipped`,
+          startTime
+        );
+        
+        return {
+          agreement: {
+            id: agreement.id,
+            name: agreement.name,
+            agreement_number: agreement.agreement_number || 'unknown'
+          },
+          yearId,
+          recordCount: 0,
+          status: 'skipped',
+          reason: 'Year not available'
+        };
+      }
+      
       logger.error(`Error syncing accounting year ${yearId} for agreement ${agreement.id}:`, error.message);
       
       await AccountingYearModel.recordSyncLog(

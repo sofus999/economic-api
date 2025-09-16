@@ -4,6 +4,10 @@ const db = require('./db');
 const logger = require('./modules/core/logger');
 const runMigrations = require('./db/run-migrations');
 
+// Enable consolidated sync logging
+const { enableConsolidatedLogging } = require("./modules/core/enable-consolidated-logging");
+enableConsolidatedLogging();
+
 // Timeout for graceful shutdown (ms)
 const SHUTDOWN_TIMEOUT = 30000;
 

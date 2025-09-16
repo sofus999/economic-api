@@ -81,29 +81,72 @@ class SyncController {
    */
   async syncDaily(req, res, next) {
     const startTime = new Date();
+    const results = {};
     
     try {
-      logger.info('Starting daily data synchronization (current year only)');
+      logger.info('Starting daily data synchronization (current year + essential reference data)');
       
-      // Daily sync focuses on accounting data for current year
-      const result = await accountingYearService.syncCurrentYearOnly();
+      // Daily sync should include essential reference data that changes frequently
+      // and current year accounting data with PDF checking
+      const syncServices = [
+        // Group 1: Essential reference data (quick sync)
+        { name: 'paymentTerms', service: paymentTermsService, method: 'syncAllPaymentTerms', label: 'payment terms' },
+        { name: 'vatAccounts', service: vatAccountService, method: 'syncAllVatAccounts', label: 'VAT accounts' },
+        { name: 'accounts', service: accountService, method: 'syncAllAccounts', label: 'accounts' },
+        { name: 'customers', service: customerService, method: 'syncAllCustomers', label: 'customers' },
+        { name: 'suppliers', service: supplierService, method: 'syncAllSuppliers', label: 'suppliers' },
+        { name: 'products', service: productService, method: 'syncAllProducts', label: 'products' },
+        
+        // Group 2: Current invoices and journals (high frequency data)
+        { name: 'invoices', service: invoiceService, method: 'syncAllInvoices', label: 'invoices' },
+        { name: 'journals', service: journalService, method: 'syncAllJournals', label: 'journals' }
+      ];
+      
+      // Sync each service
+      const totalServices = syncServices.length + 1; // +1 for accounting years
+      let completed = 0;
+      
+      for (const { name, service, method, label } of syncServices) {
+        try {
+          logger.info(`Starting daily sync of ${label}...`);
+          results[name] = await service[method]();
+          completed++;
+          logger.info(`Completed daily sync of ${label} (${completed}/${totalServices})`);
+        } catch (error) {
+          logger.error(`Error in daily sync of ${label}:`, error.message);
+          results[name] = { status: 'error', error: error.message, totalCount: 0 };
+        }
+      }
+      
+      // Sync current year accounting data with PDF checking (main focus)
+      try {
+        logger.info('Starting daily sync of current accounting year with PDF checking...');
+        results.accountingYears = await accountingYearService.syncCurrentYearOnly();
+        completed++;
+        logger.info(`Completed daily sync of current accounting year (${completed}/${totalServices})`);
+      } catch (error) {
+        logger.error('Error in daily sync of current accounting year:', error.message);
+        results.accountingYears = { status: 'error', error: error.message, totalCount: 0 };
+      }
       
       const endTime = new Date();
       const duration = endTime - startTime;
       
-      logger.info(`Daily sync finished in ${duration}ms`);
+      // Calculate total records processed
+      const totalCount = Object.values(results).reduce((sum, result) => {
+        return sum + (result.totalCount || 0);
+      }, 0);
       
-      // Return summary
+      logger.info(`Daily sync finished in ${duration}ms, processed ${totalCount} total records`);
+      
+      // Return comprehensive summary
       res.json({
         status: 'success',
         duration,
         timestamp: new Date(),
         syncType: 'daily',
-        accountingYears: {
-          count: result.totalCount || 0,
-          status: result.status || 'unknown',
-          results: result.results
-        }
+        totalCount,
+        results
       });
     } catch (error) {
       logger.error('Error in daily sync:', error.message);
@@ -175,6 +218,63 @@ class SyncController {
       });
     } catch (error) {
       logger.error('Error in full sync:', error.message);
+      next(error);
+    }
+  }
+
+  /**
+   * Get sync status and recent logs
+   */
+  async getSyncStatus(req, res, next) {
+    try {
+      const db = require('../../db');
+      
+      // Get recent sync logs for all entities
+      const recentLogs = await db.query(`
+        SELECT entity, operation, status, record_count, error_message, 
+               started_at, completed_at, duration_ms
+        FROM sync_logs 
+        WHERE started_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+        ORDER BY started_at DESC 
+        LIMIT 50
+      `);
+      
+      // Get latest status for each entity
+      const latestStatus = await db.query(`
+        SELECT DISTINCT 
+          entity,
+          FIRST_VALUE(status) OVER (PARTITION BY entity ORDER BY started_at DESC) as latest_status,
+          FIRST_VALUE(started_at) OVER (PARTITION BY entity ORDER BY started_at DESC) as last_sync,
+          FIRST_VALUE(record_count) OVER (PARTITION BY entity ORDER BY started_at DESC) as last_record_count,
+          FIRST_VALUE(error_message) OVER (PARTITION BY entity ORDER BY started_at DESC) as last_error
+        FROM sync_logs 
+        WHERE started_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+      `);
+      
+      // Check for currently running syncs
+      const runningSyncs = await db.query(`
+        SELECT entity, operation, started_at, record_count
+        FROM sync_logs 
+        WHERE status = 'running'
+        ORDER BY started_at DESC
+      `);
+      
+      res.json({
+        status: 'success',
+        timestamp: new Date(),
+        running_syncs: runningSyncs,
+        entity_status: latestStatus,
+        recent_logs: recentLogs,
+        summary: {
+          total_entities: latestStatus.length,
+          currently_running: runningSyncs.length,
+          last_24h_syncs: recentLogs.filter(log => 
+            new Date(log.started_at) > new Date(Date.now() - 24 * 60 * 60 * 1000)
+          ).length
+        }
+      });
+    } catch (error) {
+      logger.error('Error getting sync status:', error.message);
       next(error);
     }
   }

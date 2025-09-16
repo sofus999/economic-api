@@ -2154,7 +2154,8 @@ def trigger_sharepoint_sync():
             conn.exec_driver_sql(
                 """
                 CREATE TABLE IF NOT EXISTS budget (
-                  account_number       VARCHAR(20)  NOT NULL,
+                  id                   INT          AUTO_INCREMENT,
+                  account_number       VARCHAR(20)  NULL,
                   mapping_description  VARCHAR(255),
                   category             VARCHAR(255),
                   sub_category         VARCHAR(255),
@@ -2162,8 +2163,10 @@ def trigger_sharepoint_sync():
                   month                INT          NOT NULL,
                   amount               DECIMAL(15,2),
                   agreement_number     VARCHAR(20)  NOT NULL,
-                  AccountKey           VARCHAR(50)  NOT NULL,
-                  PRIMARY KEY (AccountKey, year, month)
+                  AccountKey           VARCHAR(50)  NULL,
+                  PRIMARY KEY (id),
+                  INDEX idx_account_key (AccountKey, agreement_number, year, month),
+                  INDEX idx_cash_flow (mapping_description, agreement_number, year, month, category)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
                 """
             )
@@ -2283,18 +2286,93 @@ def trigger_sharepoint_sync():
                         file_path = os.path.join('./downloads/sharepoint/budget', file_name)
                         df = process_csv_file(file_path, 'budget')
                         if isinstance(df, pd.DataFrame):
-                            # → LOOKUP real account_number / AccountKey EXACTLY like import_budget_mapping.py
+                            # → LOOKUP real account_number / AccountKey for Income Statement and Balance Sheet entries
                             df = df.merge(
                                 lookup,
                                 on=["mapping_description", "agreement_number"],
                                 how="left",
                             )
-                            unmatched = df["AccountKey"].isna().sum()
-                            if unmatched:
-                                logger.warning(f"  ⚠  {unmatched} lines in {file_name} had no mapping – skipped")
-                                df = df.dropna(subset=["AccountKey"])
+                            
+                            # Identify unmatched entries (likely Cash Flow entries)
+                            unmatched_mask = df["AccountKey"].isna()
+                            unmatched_count = unmatched_mask.sum()
+                            matched_df = df[~unmatched_mask].copy()
+                            unmatched_df = df[unmatched_mask].copy()
+                            
+                            logger.info(f"  ℹ️  {len(matched_df)} entries matched with existing account mappings")
+                            logger.info(f"  ℹ️  {unmatched_count} entries without mappings (likely Cash Flow entries)")
 
-                            df["account_number"] = df["account_number"].astype(str)
+                            # For unmatched entries, determine category based on CSV section headers
+                            if unmatched_count > 0:
+                                logger.info(f"  🔄 Processing {unmatched_count} entries without account mappings...")
+                                
+                                # Add section detection logic
+                                raw_full = pd.read_csv(file_path, sep=";", header=2, dtype=str)
+                                raw_full.rename(columns={raw_full.columns[0]: "mapping_description"}, inplace=True)
+                                
+                                # Find section boundaries in the original CSV
+                                section_markers = {}
+                                for idx, row in raw_full.iterrows():
+                                    desc = str(row["mapping_description"]).strip()
+                                    if "INCOME STATEMENT" in desc.upper():
+                                        section_markers["income_start"] = idx
+                                    elif "BALANCE SHEET" in desc.upper():
+                                        section_markers["balance_start"] = idx
+                                    elif "CASH-FLOW STATEMENT" in desc.upper():
+                                        section_markers["cashflow_start"] = idx
+                                
+                                # Assign categories based on original CSV position
+                                def get_category_from_position(mapping_desc):
+                                    # Find the original row index for this mapping_description
+                                    matching_rows = raw_full[raw_full["mapping_description"] == mapping_desc]
+                                    if matching_rows.empty:
+                                        return "Unknown"
+                                    
+                                    row_idx = matching_rows.index[0]
+                                    
+                                    # Determine section based on position
+                                    if ("cashflow_start" in section_markers and 
+                                        row_idx >= section_markers["cashflow_start"]):
+                                        return "Cash Flow Statement"
+                                    elif ("balance_start" in section_markers and 
+                                          row_idx >= section_markers["balance_start"]):
+                                        return "Balance Sheet"
+                                    elif ("income_start" in section_markers and 
+                                          row_idx >= section_markers["income_start"]):
+                                        return "Income Statement"
+                                    else:
+                                        return "Unknown"
+                                
+                                # Apply category detection
+                                unmatched_df["category"] = unmatched_df["mapping_description"].apply(get_category_from_position)
+                                
+                                # Only keep actual Cash Flow entries, filter out Balance Sheet entries
+                                cash_flow_entries = unmatched_df[unmatched_df["category"] == "Cash Flow Statement"].copy()
+                                
+                                if len(cash_flow_entries) > 0:
+                                    cash_flow_entries["account_number"] = None
+                                    cash_flow_entries["AccountKey"] = None
+                                    cash_flow_entries["sub_category"] = "Cash Flow"
+                                    
+                                    logger.info(f"  ✔️  Found {len(cash_flow_entries)} actual Cash Flow entries")
+                                    logger.info(f"  ❌  Filtered out {len(unmatched_df) - len(cash_flow_entries)} non-Cash Flow entries")
+                                    
+                                    # Combine matched and cash flow entries only
+                                    df = pd.concat([matched_df, cash_flow_entries], ignore_index=True)
+                                else:
+                                    logger.info("  ⚠️  No Cash Flow entries found, using only matched entries")
+                                    df = matched_df
+                                
+                                logger.info(f"  ✔️  Final dataset has {len(df)} entries")
+
+                            # Ensure all required columns exist
+                            if "sub_category" not in df.columns:
+                                df["sub_category"] = None
+
+                            # Handle None values for Cash Flow entries
+                            df["account_number"] = df["account_number"].astype(str).replace('None', None)
+                            df["AccountKey"] = df["AccountKey"].replace('None', None)
+                            
                             final_df = df[
                                 [
                                     "account_number",
@@ -2309,7 +2387,7 @@ def trigger_sharepoint_sync():
                                 ]
                             ]
                             all_bud.append(final_df)
-                            logger.info(f"✔  {file_name}: kept {len(final_df)} budget rows")
+                            logger.info(f"✔  {file_name}: kept {len(final_df)} budget rows ({len(matched_df)} mapped + {unmatched_count} Cash Flow)")
                         else:
                             import_results.append(f"Error processing {file_name}: {df}")
                     except Exception as e:
@@ -2342,7 +2420,7 @@ def trigger_sharepoint_sync():
         # Update the running log entry to completed
         total_records = 0
         if all_map:
-            total_records += len(all_map[0]) if all_map else 0
+            total_records += sum(len(df) for df in all_map)
         if all_bud:
             total_records += sum(len(df) for df in all_bud)
         
@@ -2529,7 +2607,7 @@ def process_csv_file(file_path: str, table_type: str) -> str:
             logger.info(f"Extracted: year={year}, agreement={agreement}")
 
             # Read CSV EXACTLY like import_budget_mapping.py
-            raw = pd.read_csv(file_path, sep=";", header=2)  # Row 3 has the proper headers
+            raw = pd.read_csv(file_path, sep=";", header=2, dtype=str)  # dtype=str preserves number formatting
             raw.rename(columns={raw.columns[0]: "mapping_description"}, inplace=True)
             raw = raw.dropna(how="all")
             
@@ -2564,26 +2642,70 @@ def process_csv_file(file_path: str, table_type: str) -> str:
 
             logger.info(f"After melt: {len(df)} records")
 
-            # Clean amounts EXACTLY like import_budget_mapping.py
-            df["amount"] = (
-                df["amount"]
-                .astype(str)
-                .str.replace(r"[^\d,.\-]", "", regex=True)
-                .str.replace(",", ".", regex=False)
-            )
-            df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
+            # Handle European number format: 1.729 = 1729, 1,5 = 1.5
+            def parse_european_number(value_str):
+                if pd.isna(value_str) or value_str == '':
+                    return None
+                
+                # Clean the string
+                clean_str = str(value_str).strip()
+                clean_str = re.sub(r'[^\d,.\-]', '', clean_str)
+                
+                if clean_str == '' or clean_str == '-':
+                    return None
+                
+                # Handle European format: period as thousands separator, comma as decimal
+                if ',' in clean_str and '.' in clean_str:
+                    # Both present: last one is decimal separator
+                    if clean_str.rfind(',') > clean_str.rfind('.'):
+                        # Comma is decimal separator, period is thousands
+                        clean_str = clean_str.replace('.', '').replace(',', '.')
+                    else:
+                        # Period is decimal separator, comma is thousands  
+                        clean_str = clean_str.replace(',', '')
+                elif ',' in clean_str:
+                    # Only comma: assume decimal separator for small numbers, thousands for large
+                    if clean_str.count(',') == 1 and len(clean_str.split(',')[1]) <= 2:
+                        # Likely decimal: 1,5 → 1.5
+                        clean_str = clean_str.replace(',', '.')
+                    else:
+                        # Likely thousands: 1,729 → 1729
+                        clean_str = clean_str.replace(',', '')
+                elif '.' in clean_str:
+                    # In European accounting format, periods are almost always thousands separators
+                    # Only treat as decimal for very specific small decimal cases
+                    parts = clean_str.split('.')
+                    if (clean_str.count('.') == 1 and 
+                        len(parts[0]) <= 2 and           # Max 2 digits before period (like 1.5, 12.3)
+                        len(parts[1]) == 1 and           # Exactly 1 digit after period
+                        int(parts[1]) != 0 and           # Non-zero digit after period (excludes 1.0, 2.0)
+                        int(parts[0]) <= 99):            # Small number before period
+                        # Very specific case: 1.5, 2.3, 12.7 → keep as decimal
+                        pass
+                    else:
+                        # All other cases: treat as thousands separator
+                        # 1.700, 1.730, 1.190, 19.428 → 1700, 1730, 1190, 19428
+                        clean_str = clean_str.replace('.', '')
+                
+                try:
+                    return float(clean_str)
+                except ValueError:
+                    return None
+            
+            df["amount"] = df["amount"].apply(parse_european_number)
             df = df.dropna(subset=["amount"])
 
             logger.info(f"After amount cleaning: {len(df)} records")
 
-            # Drop totals / empty rows EXACTLY like import_budget_mapping.py
+            # IMPROVED FILTER: More specific filtering that preserves Cash Flow entries
+            # Only filter out obvious header/total lines, not legitimate data entries
             df = df[
                 ~df["mapping_description"]
                 .astype(str)
-                .str.contains(r"TOTAL|COMMENT|STATEMENT|BALANCE|CASH|^$", case=False, regex=True)
+                .str.contains(r"^TOTAL|^COMMENT|STATEMENT \(.*dkk\)|^BALANCE SHEET \(.*dkk\)|^INCOME STATEMENT \(.*dkk\)|^CASH-FLOW STATEMENT \(.*dkk\)|^$", case=False, regex=True)
             ]
 
-            logger.info(f"After filtering: {len(df)} records")
+            logger.info(f"After improved filtering: {len(df)} records")
 
             return df  # Return DataFrame for batch processing
     

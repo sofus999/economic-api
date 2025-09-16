@@ -106,4 +106,28 @@ logger.requestId = () => {
   return Date.now().toString(36) + Math.random().toString(36).substr(2, 5).toUpperCase();
 };
 
+// Safe JSON stringification with error handling
+logger.safeStringify = (obj, replacer = null, space = 0) => {
+  try {
+    return JSON.stringify(obj, replacer, space);
+  } catch (error) {
+    // Fallback for circular references or other JSON errors
+    try {
+      const seen = new Set();
+      return JSON.stringify(obj, (key, value) => {
+        if (typeof value === 'object' && value !== null) {
+          // Handle circular references
+          if (seen.has(value)) {
+            return '[Circular Reference]';
+          }
+          seen.add(value);
+        }
+        return value;
+      }, space);
+    } catch (fallbackError) {
+      return `[Object - JSON stringify failed: ${fallbackError.message}]`;
+    }
+  }
+};
+
 module.exports = logger;

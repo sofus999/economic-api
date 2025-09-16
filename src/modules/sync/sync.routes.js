@@ -17,4 +17,9 @@ router.post('/full', (req, res, next) => {
   syncController.syncFull(req, res, next);
 });
 
+// GET /api/sync/status - Get sync status and recent logs
+router.get('/status', (req, res, next) => {
+  syncController.getSyncStatus(req, res, next);
+});
+
 module.exports = router;

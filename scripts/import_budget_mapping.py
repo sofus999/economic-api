@@ -82,7 +82,8 @@ with ENGINE.begin() as conn:
     conn.exec_driver_sql(
         """
         CREATE TABLE IF NOT EXISTS budget (
-          account_number       VARCHAR(20)  NOT NULL,
+          id                   INT          AUTO_INCREMENT,
+          account_number       VARCHAR(20)  NULL,
           mapping_description  VARCHAR(255),
           category             VARCHAR(255),
           sub_category         VARCHAR(255),
@@ -90,8 +91,10 @@ with ENGINE.begin() as conn:
           month                INT          NOT NULL,
           amount               DECIMAL(15,2),
           agreement_number     VARCHAR(20)  NOT NULL,
-          AccountKey           VARCHAR(50)  NOT NULL,
-          PRIMARY KEY (AccountKey, year, month)
+          AccountKey           VARCHAR(50)  NULL,
+          PRIMARY KEY (id),
+          INDEX idx_account_key (AccountKey, agreement_number, year, month),
+          INDEX idx_cash_flow (mapping_description, agreement_number, year, month, category)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
         """
     )
@@ -231,7 +234,7 @@ for bf in budget_files:
             agreement = m.group(1) if m else "0000000"
             year = 2024
 
-        raw = pd.read_csv(bf, sep=";", header=2)  # Row 3 has the proper headers: Primo, January, February, etc.
+        raw = pd.read_csv(bf, sep=";", header=2, dtype=str)  # dtype=str preserves number formatting like 1.740
         raw.rename(columns={raw.columns[0]: "mapping_description"}, inplace=True)
         raw = raw.dropna(how="all")
 
@@ -260,50 +263,172 @@ for bf in budget_files:
         df["year"] = year
         df["agreement_number"] = agreement
 
-        # clean numeric
-        df["amount"] = (
-            df["amount"]
-            .astype(str)
-            .str.replace(r"[^\d,.\-]", "", regex=True)
-            .str.replace(",", ".", regex=False)
-        )
-        df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
+        # Handle European number format: 1.729 = 1729, 1,5 = 1.5
+        def parse_european_number(value_str):
+            if pd.isna(value_str) or value_str == '':
+                return None
+            
+            # Clean the string
+            clean_str = str(value_str).strip()
+            clean_str = re.sub(r'[^\d,.\-]', '', clean_str)
+            
+            if clean_str == '' or clean_str == '-':
+                return None
+            
+            # Handle European format: period as thousands separator, comma as decimal
+            if ',' in clean_str and '.' in clean_str:
+                # Both present: last one is decimal separator
+                if clean_str.rfind(',') > clean_str.rfind('.'):
+                    # Comma is decimal separator, period is thousands
+                    clean_str = clean_str.replace('.', '').replace(',', '.')
+                else:
+                    # Period is decimal separator, comma is thousands  
+                    clean_str = clean_str.replace(',', '')
+            elif ',' in clean_str:
+                # Only comma: assume decimal separator for small numbers, thousands for large
+                if clean_str.count(',') == 1 and len(clean_str.split(',')[1]) <= 2:
+                    # Likely decimal: 1,5 → 1.5
+                    clean_str = clean_str.replace(',', '.')
+                else:
+                    # Likely thousands: 1,729 → 1729
+                    clean_str = clean_str.replace(',', '')
+            elif '.' in clean_str:
+                # In European accounting format, periods are almost always thousands separators
+                # Only treat as decimal for very specific small decimal cases
+                parts = clean_str.split('.')
+                if (clean_str.count('.') == 1 and 
+                    len(parts[0]) <= 2 and           # Max 2 digits before period (like 1.5, 12.3)
+                    len(parts[1]) == 1 and           # Exactly 1 digit after period
+                    int(parts[1]) != 0 and           # Non-zero digit after period (excludes 1.0, 2.0)
+                    int(parts[0]) <= 99):            # Small number before period
+                    # Very specific case: 1.5, 2.3, 12.7 → keep as decimal
+                    pass
+                else:
+                    # All other cases: treat as thousands separator
+                    # 1.700, 1.730, 1.190, 19.428 → 1700, 1730, 1190, 19428
+                    clean_str = clean_str.replace('.', '')
+            
+            try:
+                return float(clean_str)
+            except ValueError:
+                return None
+        
+        df["amount"] = df["amount"].apply(parse_european_number)
         df = df.dropna(subset=["amount"])
 
-        # drop totals / empty rows
+        # IMPROVED FILTER: More specific filtering that preserves Cash Flow entries
+        # Only filter out obvious header/total lines, not legitimate data entries
         df = df[
             ~df["mapping_description"]
             .astype(str)
-            .str.contains(r"TOTAL|COMMENT|STATEMENT|BALANCE|CASH|^$", case=False, regex=True)
+            .str.contains(r"^TOTAL|^COMMENT|STATEMENT \(.*dkk\)|^BALANCE SHEET \(.*dkk\)|^INCOME STATEMENT \(.*dkk\)|^CASH-FLOW STATEMENT \(.*dkk\)|^$", case=False, regex=True)
         ]
 
-        # → LOOKUP real account_number / AccountKey
+        print(f"DEBUG: After improved filtering: {len(df)} records")
+
+        # → LOOKUP real account_number / AccountKey for Income Statement and Balance Sheet entries
         df = df.merge(
             lookup,
             on=["mapping_description", "agreement_number"],
             how="left",
         )
-        unmatched = df["AccountKey"].isna().sum()
-        if unmatched:
-            print(f"  ⚠  {unmatched} lines in {bf} had no mapping – skipped")
-            df = df.dropna(subset=["AccountKey"])
+        
+        # Identify unmatched entries (likely Cash Flow entries)
+        unmatched_mask = df["AccountKey"].isna()
+        unmatched_count = unmatched_mask.sum()
+        matched_df = df[~unmatched_mask].copy()
+        unmatched_df = df[unmatched_mask].copy()
+        
+        print(f"  ℹ️  {len(matched_df)} entries matched with existing account mappings")
+        print(f"  ℹ️  {unmatched_count} entries without mappings (likely Cash Flow entries)")
 
-        df["account_number"] = df["account_number"].astype(str)
-        all_bud.append(
-            df[
-                [
-                    "account_number",
-                    "mapping_description",
-                    "category",
-                    "year",
-                    "month",
-                    "amount",
-                    "agreement_number",
-                    "AccountKey",
-                ]
+        # For unmatched entries, handle as Cash Flow entries with no AccountKey
+        if unmatched_count > 0:
+            print(f"  🔄 Processing {unmatched_count} entries without account mappings...")
+            
+            # Add section detection logic
+            raw_full = pd.read_csv(budget_file, sep=";", header=2, dtype=str)
+            raw_full.rename(columns={raw_full.columns[0]: "mapping_description"}, inplace=True)
+            
+            # Find section boundaries in the original CSV
+            section_markers = {}
+            for idx, row in raw_full.iterrows():
+                desc = str(row["mapping_description"]).strip()
+                if "INCOME STATEMENT" in desc.upper():
+                    section_markers["income_start"] = idx
+                elif "BALANCE SHEET" in desc.upper():
+                    section_markers["balance_start"] = idx
+                elif "CASH-FLOW STATEMENT" in desc.upper():
+                    section_markers["cashflow_start"] = idx
+            
+            # Assign categories based on original CSV position
+            def get_category_from_position(mapping_desc):
+                # Find the original row index for this mapping_description
+                matching_rows = raw_full[raw_full["mapping_description"] == mapping_desc]
+                if matching_rows.empty:
+                    return "Unknown"
+                
+                row_idx = matching_rows.index[0]
+                
+                # Determine section based on position
+                if ("cashflow_start" in section_markers and 
+                    row_idx >= section_markers["cashflow_start"]):
+                    return "Cash Flow Statement"
+                elif ("balance_start" in section_markers and 
+                      row_idx >= section_markers["balance_start"]):
+                    return "Balance Sheet"
+                elif ("income_start" in section_markers and 
+                      row_idx >= section_markers["income_start"]):
+                    return "Income Statement"
+                else:
+                    return "Unknown"
+            
+            # Apply category detection
+            unmatched_df["category"] = unmatched_df["mapping_description"].apply(get_category_from_position)
+            
+            # Only keep actual Cash Flow entries, filter out Balance Sheet entries
+            cash_flow_entries = unmatched_df[unmatched_df["category"] == "Cash Flow Statement"].copy()
+            
+            if len(cash_flow_entries) > 0:
+                cash_flow_entries["account_number"] = None
+                cash_flow_entries["AccountKey"] = None
+                cash_flow_entries["sub_category"] = "Cash Flow"
+                
+                print(f"  ✔️  Found {len(cash_flow_entries)} actual Cash Flow entries")
+                print(f"  ❌  Filtered out {len(unmatched_df) - len(cash_flow_entries)} non-Cash Flow entries")
+                
+                # Combine matched and cash flow entries only
+                df = pd.concat([matched_df, cash_flow_entries], ignore_index=True)
+            else:
+                print("  ⚠️  No Cash Flow entries found, using only matched entries")
+                df = matched_df
+            
+            print(f"  ✔️  Final dataset has {len(df)} entries")
+
+        # Ensure all required columns exist
+        if "sub_category" not in df.columns:
+            df["sub_category"] = None
+
+        # Handle None values for Cash Flow entries
+        df["account_number"] = df["account_number"].astype(str).replace('None', None)
+        df["AccountKey"] = df["AccountKey"].replace('None', None)
+        
+        final_df = df[
+            [
+                "account_number",
+                "mapping_description",
+                "category",
+                "sub_category",
+                "year",
+                "month",
+                "amount",
+                "agreement_number",
+                "AccountKey",
             ]
-        )
-        print(f"✔  {bf}: kept {len(df)} budget rows")
+        ]
+        
+        all_bud.append(final_df)
+        print(f"✔  {bf}: kept {len(final_df)} budget rows ({len(matched_df)} mapped + {unmatched_count} Cash Flow)")
     except Exception:
         print(f"✖  {bf}:")
         traceback.print_exc()

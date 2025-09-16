@@ -51,7 +51,10 @@ async function runSync() {
       [
         { name: 'paymentTerms', service: paymentTermsService, method: 'syncAllPaymentTerms', label: 'payment terms' },
         { name: 'vatAccounts', service: vatAccountService, method: 'syncAllVatAccounts', label: 'VAT accounts' },
-        { name: 'departments', service: departmentService, method: 'syncAllDepartments', label: 'departments' },
+        { name: 'accounts', service: accountService, method: 'syncAllAccounts', label: 'accounts' },
+        { name: 'customers', service: customerService, method: 'syncAllCustomers', label: 'customers' },
+        { name: 'suppliers', service: supplierService, method: 'syncAllSuppliers', label: 'suppliers' },
+        { name: 'products', service: productService, method: 'syncAllProducts', label: 'products' },
       ],
       
       // Group 2: Current year accounting data with PDF checking (main focus)
